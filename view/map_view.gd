@@ -3,8 +3,14 @@ extends Node2D
 
 # Inner class for hex visualization
 class HexLocation extends Node2D:
-	const HEX_SIZE = 32  # Distance from center to corner
-	const WIDTH_MULTIPLIER = 0.866  # sqrt(3)/2
+	const HEX_SIZE = 32
+	const WIDTH_MULTIPLIER = 0.866
+	
+	var hex_data: Dictionary
+
+	func initialize(data: Dictionary) -> void:
+		hex_data = data
+		update()  # Trigger redraw
 
 	func _draw() -> void:
 		var points = []
@@ -14,9 +20,14 @@ class HexLocation extends Node2D:
 			var y = sin(angle) * HEX_SIZE
 			points.append(Vector2(x, y))
 		
-		draw_colored_polygon(points, Color.white)
+		# Use biome color or white as fallback
+		var color = Color.white
+		if hex_data.has("biome"):
+			color = hex_data["biome"]["color"]
+		
+		draw_colored_polygon(points, color)
 		draw_polyline(points + [points[0]], Color.black, 1.0)
-
+		
 # Map View properties
 var game_map: GameMap
 var hex_locations = {}
@@ -53,6 +64,7 @@ func _create_visual_map() -> void:
 		var pixel_y = HexLocation.HEX_SIZE * (sqrt(3)/2.0 * pos.x + sqrt(3) * pos.y)
 		
 		hex.position = Vector2(pixel_x, pixel_y)
+		hex.initialize(game_map.hex_data[pos])
 		hex_locations[pos] = hex
 
 func _center_camera() -> void:
