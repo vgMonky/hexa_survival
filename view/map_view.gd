@@ -20,19 +20,18 @@ class HexLocation extends Node2D:
 			var y = sin(angle) * HEX_SIZE
 			points.append(Vector2(x, y))
 		
-		# Use biome color or white as fallback
+		# Draw biome
 		var color = Color.white
 		if hex_data.has("biome"):
 			color = hex_data["biome"]["color"]
-		
 		draw_colored_polygon(points, color)
 		draw_polyline(points + [points[0]], Color.black, 1.0)
-
+		
 		# Draw character if present
 		if hex_data.has("occupied") and hex_data["occupied"] != null:
-			# Convert to float to avoid integer division
+			var character = hex_data["occupied"]
 			var box_size = Vector2(float(HEX_SIZE)/2.0, float(HEX_SIZE)/2.0)
-			draw_rect(Rect2(-box_size/2.0, box_size), Color.red)
+			draw_rect(Rect2(-box_size/2.0, box_size), character.team_color)
 			
 # Map View properties
 var game_map: GameMap
