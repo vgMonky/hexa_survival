@@ -36,11 +36,24 @@ var map_width: int
 var map_height: int
 var hex_data: Dictionary = {}
 
+
+
+var turn_manager: TurnManager
+
 func initialize(new_width: int, new_height: int) -> void:
 	map_width = new_width
 	map_height = new_height
 	hex_data = create_hex_grid(map_width, map_height)
+	
+	# Create turn manager
+	turn_manager = TurnManager.new()
+	add_child(turn_manager)
+	
 	emit_signal("map_updated")
+
+func start_game(red_team: Array, pink_team: Array) -> void:
+	turn_manager.initialize(red_team, pink_team)
+	turn_manager.start_game()
 
 func get_hex_data(pos: Vector2) -> Dictionary:
 	return hex_data.get(pos, {})
@@ -64,3 +77,5 @@ func place_character(character: Character) -> bool:
 	character.position = pos
 	emit_signal("map_updated")
 	return true
+
+
