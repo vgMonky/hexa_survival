@@ -58,3 +58,21 @@ func get_hex_resources(pos: Vector2) -> Array:
 			if randf() < data["biome"]["resources"][resource]:
 				resources.append(resource)
 	return resources
+
+func place_character(character: Character) -> bool:
+	# Find random walkable position
+	var walkable_positions = []
+	for pos in hex_data.keys():
+		if is_walkable(pos) and hex_data[pos]["occupied"] == null:
+			walkable_positions.append(pos)
+	
+	if walkable_positions.empty():
+		return false
+		
+	# Select random position
+	var pos = walkable_positions[randi() % walkable_positions.size()]
+	
+	# Place character
+	hex_data[pos]["occupied"] = character
+	character.position = pos
+	return true

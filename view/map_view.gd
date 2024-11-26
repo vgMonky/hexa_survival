@@ -27,7 +27,13 @@ class HexLocation extends Node2D:
 		
 		draw_colored_polygon(points, color)
 		draw_polyline(points + [points[0]], Color.black, 1.0)
-		
+
+		# Draw character if present
+		if hex_data.has("occupied") and hex_data["occupied"] != null:
+			# Convert to float to avoid integer division
+			var box_size = Vector2(float(HEX_SIZE)/2.0, float(HEX_SIZE)/2.0)
+			draw_rect(Rect2(-box_size/2.0, box_size), Color.red)
+			
 # Map View properties
 var game_map: GameMap
 var hex_locations = {}

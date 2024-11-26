@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://game/biome.gd"
 }, {
 "base": "Node",
+"class": "Character",
+"language": "GDScript",
+"path": "res://game/character.gd"
+}, {
+"base": "Node",
 "class": "GameMap",
 "language": "GDScript",
 "path": "res://game/map.gd"
@@ -26,6 +31,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BiomeData": "",
+"Character": "",
 "GameMap": "",
 "MapView": ""
 }
