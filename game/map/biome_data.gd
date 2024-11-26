@@ -1,5 +1,5 @@
 class_name BiomeData
-extends Node
+extends Reference
 
 static func create_woods() -> Dictionary:
 	return {

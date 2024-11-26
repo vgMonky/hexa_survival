@@ -9,49 +9,49 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
+"base": "Reference",
 "class": "BiomeData",
 "language": "GDScript",
-"path": "res://game/biome.gd"
+"path": "res://game/map/biome_data.gd"
 }, {
 "base": "Node",
 "class": "Character",
 "language": "GDScript",
-"path": "res://game/character.gd"
+"path": "res://game/entities/character.gd"
 }, {
-"base": "Node",
-"class": "GameMap",
+"base": "Reference",
+"class": "GameState",
 "language": "GDScript",
-"path": "res://game/map.gd"
+"path": "res://game/state/game_state.gd"
 }, {
 "base": "Node2D",
 "class": "HexLocation",
 "language": "GDScript",
-"path": "res://view/hex_location.gd"
+"path": "res://view/map/hex_location.gd"
 }, {
 "base": "Control",
 "class": "InfoUI",
 "language": "GDScript",
-"path": "res://view/info_ui.gd"
+"path": "res://view/ui/info_ui.gd"
 }, {
 "base": "Node2D",
 "class": "MapView",
 "language": "GDScript",
-"path": "res://view/map_view.gd"
+"path": "res://view/map/map_view.gd"
 }, {
 "base": "Node",
-"class": "TurnManager",
+"class": "StateManager",
 "language": "GDScript",
-"path": "res://game/turn_manager.gd"
+"path": "res://game/state/state_manager.gd"
 } ]
 _global_script_class_icons={
 "BiomeData": "",
 "Character": "",
-"GameMap": "",
+"GameState": "",
 "HexLocation": "",
 "InfoUI": "",
 "MapView": "",
-"TurnManager": ""
+"StateManager": ""
 }
 
 [application]

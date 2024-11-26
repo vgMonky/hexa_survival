@@ -41,16 +41,6 @@ func _draw() -> void:
 		var box_size = Vector2(float(HEX_SIZE)/2.0, float(HEX_SIZE)/2.0)
 		draw_rect(Rect2(-box_size/2.0, box_size), character.team_color)
 
-func _on_mouse_entered() -> void:
-	is_hovered = true
-	update()
-	emit_signal("hex_hovered", hex_data, grid_position)
-
-func _on_mouse_exited() -> void:
-	is_hovered = false
-	update()
-	emit_signal("hex_unhovered")
-
 func _ready() -> void:
 	var area = Area2D.new()
 	add_child(area)
@@ -67,3 +57,13 @@ func _ready() -> void:
 	
 	area.connect("mouse_entered", self, "_on_mouse_entered")
 	area.connect("mouse_exited", self, "_on_mouse_exited")
+
+func _on_mouse_entered() -> void:
+	is_hovered = true
+	update()
+	emit_signal("hex_hovered", hex_data, grid_position)
+
+func _on_mouse_exited() -> void:
+	is_hovered = false
+	update()
+	emit_signal("hex_unhovered")

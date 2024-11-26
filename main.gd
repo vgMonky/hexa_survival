@@ -1,40 +1,41 @@
 extends Node2D
 
 func _ready() -> void:
-	var game_map = GameMap.new()
-	add_child(game_map)
-	game_map.initialize(5, 5)  # 5x5 grid
+	print("\nStarting game initialization...")
 	
-	# Create teams arrays
-	var red_team = []
-	var pink_team = []
+	# Create state manager
+	var state_manager = StateManager.new()
+	add_child(state_manager)
+	state_manager.initialize(5, 5)
 	
+	print("\nCreating red team characters...")
 	# Create red team characters
-	for _i in range(2):
+	for i in range(2):
 		var character = Character.new()
 		add_child(character)
 		character.initialize(Vector2.ZERO, Color.red)
-		game_map.place_character(character)
-		red_team.append(character)
+		print("Creating red character ", i + 1)
+		state_manager.place_entity(character, Vector2.ZERO)
 	
+	print("\nCreating pink team character...")
 	# Create pink team character
 	var character = Character.new()
 	add_child(character)
 	character.initialize(Vector2.ZERO, Color.pink)
-	game_map.place_character(character)
-	pink_team.append(character)
+	state_manager.place_entity(character, Vector2.ZERO)
 	
 	# Create info UI
+	print("\nCreating UI...")
 	var info_ui = InfoUI.new()
 	add_child(info_ui)
-	info_ui.update_map_info(game_map)
+	info_ui.update_map_info(state_manager.current_state)
 	
+	print("\nCreating map view...")
 	# Create map view
 	var map_view = MapView.new()
 	add_child(map_view)
-	map_view.initialize(game_map)
+	map_view.initialize(state_manager)
 	map_view.connect("hex_hovered", info_ui, "update_hex_info")
 	map_view.connect("hex_unhovered", info_ui, "clear_hex_info")
 	
-	# Start the game
-	game_map.start_game(red_team, pink_team)
+	print("Game initialization complete!\n")

@@ -4,10 +4,9 @@ extends Node2D
 signal hex_hovered(hex_data, grid_pos)
 signal hex_unhovered
 
-# Map View properties
-var game_map: GameMap
+var state_manager: StateManager
 var hex_locations = {}
-var current_hovered_hex: HexLocation = null  # Add this to track current hover
+var current_hovered_hex: HexLocation = null
 
 # Camera control variables
 var camera: Camera2D
@@ -22,9 +21,9 @@ func _ready() -> void:
 	camera.make_current()
 	add_child(camera)
 
-func initialize(map: GameMap) -> void:
-	game_map = map
-	assert(game_map.connect("map_updated", self, "_on_map_updated") == OK)
+func initialize(manager: StateManager) -> void:
+	state_manager = manager
+	assert(state_manager.connect("state_updated", self, "_on_state_updated") == OK)
 	_create_visual_map()
 	_center_camera()
 
@@ -32,9 +31,10 @@ func _create_visual_map() -> void:
 	for hex in hex_locations.values():
 		hex.queue_free()
 	hex_locations.clear()
-	current_hovered_hex = null  # Reset current hover
+	current_hovered_hex = null
 	
-	for pos in game_map.hex_data.keys():
+	var state = state_manager.current_state
+	for pos in state.hex_grid.keys():
 		var hex = HexLocation.new()
 		add_child(hex)
 		
@@ -42,7 +42,7 @@ func _create_visual_map() -> void:
 		var pixel_y = HexLocation.HEX_SIZE * (sqrt(3)/2.0 * pos.x + sqrt(3) * pos.y)
 		
 		hex.position = Vector2(pixel_x, pixel_y)
-		hex.initialize(game_map.hex_data[pos], pos)
+		hex.initialize(state.hex_grid[pos], pos)
 		hex.connect("hex_hovered", self, "_on_hex_hovered")
 		hex.connect("hex_unhovered", self, "_on_hex_unhovered")
 		hex_locations[pos] = hex
@@ -78,12 +78,11 @@ func _input(event: InputEvent) -> void:
 			zoom_level = clamp(zoom_level + ZOOM_SPEED, MIN_ZOOM, MAX_ZOOM)
 			camera.zoom = Vector2.ONE * zoom_level
 
-func _on_map_updated() -> void:
+func _on_state_updated() -> void:
 	_create_visual_map()
 	_center_camera()
 
 func _on_hex_hovered(hex_data: Dictionary, grid_pos: Vector2) -> void:
-	# Update current hovered hex
 	if current_hovered_hex != null:
 		current_hovered_hex.is_hovered = false
 		current_hovered_hex.update()
@@ -91,8 +90,7 @@ func _on_hex_hovered(hex_data: Dictionary, grid_pos: Vector2) -> void:
 	emit_signal("hex_hovered", hex_data, grid_pos)
 
 func _on_hex_unhovered() -> void:
-	# Only clear if we're not immediately entering another hex
-	yield(get_tree(), "idle_frame")  # Wait one frame
+	yield(get_tree(), "idle_frame")
 	if current_hovered_hex and not current_hovered_hex.is_hovered:
 		current_hovered_hex = null
 		emit_signal("hex_unhovered")

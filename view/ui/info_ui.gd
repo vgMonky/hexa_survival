@@ -44,11 +44,13 @@ func _ready() -> void:
 	
 	# Initialize empty
 	clear_hex_info()
+	print("InfoUI initialized")
 
-func update_map_info(game_map: GameMap) -> void:
+func update_map_info(state: GameState) -> void:
 	map_info.text = "Map Info:\n"
-	map_info.text += "Size: %d x %d\n" % [game_map.map_width, game_map.map_height]
-	map_info.text += "Total Hexes: %d" % len(game_map.hex_data)
+	map_info.text += "Size: %d x %d\n" % [state.width, state.height]
+	map_info.text += "Total Hexes: %d" % len(state.hex_grid)
+	print("Map info updated")
 
 func update_hex_info(hex_data: Dictionary, pos: Vector2) -> void:
 	if hex_data.empty():
@@ -76,10 +78,13 @@ func update_hex_info(hex_data: Dictionary, pos: Vector2) -> void:
 		character_info.text += "Equipment: %s\n" % (str(character.equipment) if not character.equipment.empty() else "Empty")
 	else:
 		character_info.text = ""
+	
+	print("Hex info updated for position: ", pos)
 
 func clear_hex_info() -> void:
 	hex_info.text = "\nHover over a hex to see info"
 	character_info.text = ""
+	print("Hex info cleared")
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -87,8 +92,10 @@ func _gui_input(event: InputEvent) -> void:
 			if event.pressed:
 				dragging = true
 				drag_start_pos = event.position
+				print("Started dragging UI")
 			else:
 				dragging = false
+				print("Stopped dragging UI")
 	
 	elif event is InputEventMouseMotion and dragging:
 		panel.margin_left += event.relative.x
