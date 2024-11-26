@@ -25,6 +25,11 @@ _global_script_classes=[ {
 "path": "res://game/map.gd"
 }, {
 "base": "Node2D",
+"class": "HexLocation",
+"language": "GDScript",
+"path": "res://view/hex_location.gd"
+}, {
+"base": "Node2D",
 "class": "MapView",
 "language": "GDScript",
 "path": "res://view/map_view.gd"
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "BiomeData": "",
 "Character": "",
 "GameMap": "",
+"HexLocation": "",
 "MapView": ""
 }
 
