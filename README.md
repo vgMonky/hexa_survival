@@ -18,6 +18,3 @@ A turn-based game with hexagonal grid movement, built with Godot Engine 3.5.2.
 
 This project is currently in early development.
 
-## License
-
-[Choose your license]
