@@ -5,6 +5,6 @@ func _ready() -> void:
 	add_child(game_map)
 	game_map.initialize(5, 5)  # 5x5 grid
 	
-	var map_view = preload("res://view/map.tscn").instance()
+	var map_view = MapView.new()
 	add_child(map_view)
 	map_view.initialize(game_map)

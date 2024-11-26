@@ -1,4 +1,4 @@
-class_name HexLocation
+class_name HexLocationView
 extends Node2D
 
 const HEX_SIZE = 32  # Distance from center to corner

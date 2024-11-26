@@ -1,3 +1,4 @@
+class_name MapView
 extends Node2D
 
 var game_map: GameMap
@@ -28,11 +29,11 @@ func _create_visual_map() -> void:
 	hex_locations.clear()
 	
 	for pos in game_map.hex_data.keys():
-		var hex = HexLocation.new()
+		var hex = HexLocationView.new()
 		add_child(hex)
 		
-		var pixel_x = HexLocation.HEX_SIZE * (3.0/2.0 * pos.x)
-		var pixel_y = HexLocation.HEX_SIZE * (sqrt(3)/2.0 * pos.x + sqrt(3) * pos.y)
+		var pixel_x = HexLocationView.HEX_SIZE * (3.0/2.0 * pos.x)
+		var pixel_y = HexLocationView.HEX_SIZE * (sqrt(3)/2.0 * pos.x + sqrt(3) * pos.y)
 		
 		hex.position = Vector2(pixel_x, pixel_y)
 		hex_locations[pos] = hex
