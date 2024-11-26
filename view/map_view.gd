@@ -49,7 +49,6 @@ func _create_visual_map() -> void:
 		var hex = HexLocation.new()
 		add_child(hex)
 		
-		# Convert axial coordinates to pixel position
 		var pixel_x = HexLocation.HEX_SIZE * (3.0/2.0 * pos.x)
 		var pixel_y = HexLocation.HEX_SIZE * (sqrt(3)/2.0 * pos.x + sqrt(3) * pos.y)
 		

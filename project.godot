@@ -29,6 +29,24 @@ _global_script_class_icons={
 config/name="hexa_survival"
 run/main_scene="res://main.tscn"
 
+[global]
+
+script_classes=[ {
+"base": "Node",
+"class": "GameMap",
+"language": "GDScript",
+"path": "res://game/map.gd"
+}, {
+"base": "Node2D",
+"class": "MapView",
+"language": "GDScript",
+"path": "res://view/map_view.gd"
+} ]
+script_class_icons={
+"GameMap": "",
+"MapView": ""
+}
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
