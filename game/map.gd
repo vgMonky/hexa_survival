@@ -1,18 +1,18 @@
 class_name GameMap
 extends Node
 
+# Map Manager static functions
 static func create_hex_grid(grid_width: int, grid_height: int) -> Dictionary:
-	# Initialize random number generator with current time
 	randomize()
 	
 	var grid_data = {}
 	
 	for q in range(grid_width):
 		for r in range(grid_height):
-			var hex_pos = Vector2(q, r)
+			var hex_pos = Vector2(q, r)  # Using Vector2 for simplicity
 			grid_data[hex_pos] = {
 				"biome": _random_biome(),
-				"occupied": null  # Will store character reference
+				"occupied": null
 			}
 			
 	return grid_data
@@ -29,6 +29,7 @@ static func _random_biome() -> Dictionary:
 	else:
 		return BiomeData.create_water()
 
+# Map instance variables and functions
 signal map_updated
 
 var map_width: int
@@ -44,35 +45,22 @@ func initialize(new_width: int, new_height: int) -> void:
 func get_hex_data(pos: Vector2) -> Dictionary:
 	return hex_data.get(pos, {})
 
-func is_walkable(pos: Vector2) -> bool:
-	var data = get_hex_data(pos)
-	if data.has("biome"):
-		return data["biome"]["walkable"]
-	return false
-
-func get_hex_resources(pos: Vector2) -> Array:
-	var data = get_hex_data(pos)
-	var resources = []
-	if data.has("biome"):
-		for resource in data["biome"]["resources"]:
-			if randf() < data["biome"]["resources"][resource]:
-				resources.append(resource)
-	return resources
-
+# Added this function
 func place_character(character: Character) -> bool:
 	# Find random walkable position
-	var walkable_positions = []
+	var available_positions = []
 	for pos in hex_data.keys():
-		if is_walkable(pos) and hex_data[pos]["occupied"] == null:
-			walkable_positions.append(pos)
+		if hex_data[pos]["biome"]["walkable"] and hex_data[pos]["occupied"] == null:
+			available_positions.append(pos)
 	
-	if walkable_positions.empty():
+	if available_positions.empty():
 		return false
-		
+	
 	# Select random position
-	var pos = walkable_positions[randi() % walkable_positions.size()]
+	var pos = available_positions[randi() % available_positions.size()]
 	
 	# Place character
 	hex_data[pos]["occupied"] = character
 	character.position = pos
+	emit_signal("map_updated")
 	return true

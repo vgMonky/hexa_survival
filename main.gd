@@ -6,7 +6,7 @@ func _ready() -> void:
 	game_map.initialize(5, 5)  # 5x5 grid
 	
 	# Create red team characters
-	for _i in range(2):  # Added underscore to show it's intentionally unused
+	for _i in range(2):
 		var character = Character.new()
 		add_child(character)
 		character.initialize(Vector2.ZERO, Color.red)
@@ -18,6 +18,14 @@ func _ready() -> void:
 	character.initialize(Vector2.ZERO, Color.pink)
 	game_map.place_character(character)
 	
+	# Create info UI
+	var info_ui = InfoUI.new()
+	add_child(info_ui)
+	info_ui.update_map_info(game_map)
+	
+	# Create map view
 	var map_view = MapView.new()
 	add_child(map_view)
 	map_view.initialize(game_map)
+	map_view.connect("hex_hovered", info_ui, "update_hex_info")
+	map_view.connect("hex_unhovered", info_ui, "clear_hex_info")
