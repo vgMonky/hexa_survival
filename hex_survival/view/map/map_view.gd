@@ -8,14 +8,16 @@ var zoom_level: float = 1.0
 const MIN_ZOOM: float = 0.5
 const MAX_ZOOM: float = 2.0
 const ZOOM_SPEED: float = 0.1
+var info_ui: InfoUI
 
 func _ready() -> void:
 	camera = Camera2D.new()
 	camera.make_current()
 	add_child(camera)
 
-func initialize(manager: StateManager) -> void:
+func initialize(manager: StateManager, info_ui_instance: InfoUI) -> void:
 	state_manager = manager
+	info_ui = info_ui_instance
 	assert(state_manager.connect("state_updated", self, "_on_state_updated") == OK)
 	_create_visual_map()
 	_center_camera()
@@ -28,6 +30,8 @@ func _create_visual_map() -> void:
 	for q in range(state_manager.current_state.map_data.width):
 		for r in range(state_manager.current_state.map_data.height):
 			var hex = HexLocation.new()
+			hex.connect("mouse_entered", self, "_on_hex_mouse_entered", [hex])
+			hex.connect("mouse_exited", self, "_on_hex_mouse_exited", [hex])
 			add_child(hex)
 			var pos = Vector2(q, r)
 			hex.position = _get_hex_position(pos)
@@ -65,6 +69,16 @@ func _input(event: InputEvent) -> void:
 		elif event.button_index == BUTTON_WHEEL_DOWN:
 			zoom_level = clamp(zoom_level + ZOOM_SPEED, MIN_ZOOM, MAX_ZOOM)
 			camera.zoom = Vector2.ONE * zoom_level
+
+func _on_hex_mouse_entered(hex: HexLocation) -> void:
+	_update_info_ui(hex.hex_pos)
+
+func _on_hex_mouse_exited(_hex: HexLocation) -> void:
+	_update_info_ui(null)
+
+func _update_info_ui(hovered_hex) -> void:
+	if info_ui:
+		info_ui.update_state_info(state_manager.current_state, hovered_hex)
 
 func _on_state_updated() -> void:
 	_create_visual_map()

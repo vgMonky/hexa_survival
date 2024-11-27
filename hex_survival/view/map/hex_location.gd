@@ -14,9 +14,8 @@ func _ready() -> void:
 	# Create the collision shape for the Area2D
 	var collision_shape = CollisionShape2D.new()
 	collision_shape.shape = CircleShape2D.new()
-	collision_shape.shape.radius = HEX_SIZE / 2
+	collision_shape.shape.radius = HEX_SIZE / 1.5
 	add_child(collision_shape)
-
 
 func initialize(pos: Vector2) -> void:
 	hex_pos = pos

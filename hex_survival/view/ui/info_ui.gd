@@ -1,19 +1,23 @@
-# view/ui/info_ui.gd
+# hex_survival/view/ui/info_ui.gd
 class_name InfoUI
 extends UIBox
 
 var map_info: Label
 var team_info: VBoxContainer
+var hex_info: VBoxContainer
 
 func _init(title: String = "", pos_preset: int = Control.PRESET_TOP_RIGHT).(title, pos_preset) -> void:
 	set_margins(-200, 10, -10)
 	map_info = Label.new()
 	team_info = VBoxContainer.new()
+	hex_info = VBoxContainer.new()
 	content.add_child(map_info)
 	content.add_child(HSeparator.new())
 	content.add_child(team_info)
+	content.add_child(HSeparator.new())
+	content.add_child(hex_info)
 
-func update_state_info(state: GameState) -> void:
+func update_state_info(state: GameState, hovered_hex) -> void:
 	map_info.text = "Map Size: %d x %d" % [state.map_data.width, state.map_data.height]
 	map_info.text += "\nHexes: %d" % len(state.map_data.hexes)
 
@@ -31,3 +35,28 @@ func update_state_info(state: GameState) -> void:
 		team_label.text = team_name
 		team_label.modulate = team_data.color
 		team_info.add_child(team_label)
+
+	# Clear the previous hex info
+	for child in hex_info.get_children():
+		child.queue_free()
+
+	# Display the info for the hovered hex
+	var hex_label = Label.new()
+	hex_label.text = "Hovered Hex: %s" % str(hovered_hex)
+	hex_info.add_child(hex_label)
+
+	if hovered_hex in state.map_data.hexes:
+		var hex_data = state.map_data.hexes[hovered_hex]
+		hex_label = Label.new()
+		hex_label.text = "Biome: %s" % str(hex_data.get("biome", "None"))
+		hex_info.add_child(hex_label)
+		hex_label = Label.new()
+		hex_label.text = "Resources: %s" % str(hex_data.get("resources", "None"))
+		hex_info.add_child(hex_label)
+		hex_label = Label.new()
+		hex_label.text = "Entity: %s" % str(hex_data.get("entity", "None"))
+		hex_info.add_child(hex_label)
+	else:
+		hex_label = Label.new()
+		hex_label.text = "No hex data available"
+		hex_info.add_child(hex_label)
