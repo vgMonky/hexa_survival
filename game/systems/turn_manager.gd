@@ -16,13 +16,13 @@ func _init(manager: StateManager) -> void:
 	state_manager = manager
 	print("Turn System initialized")
 
-func initialize_characters(red_team: Array, pink_team: Array) -> void:
-	characters = red_team + pink_team
+func initialize_characters(character_order: Array) -> void:
+	characters = character_order
 	print("Turn order initialized with ", characters.size(), " characters")
 	for i in range(characters.size()):
-		var _character = characters[i]  # Added underscore
-		print("Turn ", i + 1, ": ", "Red" if i < red_team.size() else "Pink", " team character")
-
+		var character = characters[i]
+		print("Turn ", i + 1, ": Character from team ", character.team_color)
+		
 # Add the missing function that the timer is trying to call
 func end_current_turn() -> void:
 	if not is_turn_active:

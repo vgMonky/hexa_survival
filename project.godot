@@ -45,6 +45,16 @@ _global_script_classes=[ {
 "path": "res://game/state/state_manager.gd"
 }, {
 "base": "Node",
+"class": "Team",
+"language": "GDScript",
+"path": "res://game/entities/team.gd"
+}, {
+"base": "Node",
+"class": "TeamManager",
+"language": "GDScript",
+"path": "res://game/systems/team_manager.gd"
+}, {
+"base": "Node",
 "class": "TurnSystem",
 "language": "GDScript",
 "path": "res://game/systems/turn_manager.gd"
@@ -67,6 +77,8 @@ _global_script_class_icons={
 "InfoUI": "",
 "MapView": "",
 "StateManager": "",
+"Team": "",
+"TeamManager": "",
 "TurnSystem": "",
 "TurnUI": "",
 "UIBox": ""

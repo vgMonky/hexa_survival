@@ -1,41 +1,39 @@
 extends Node2D
 
-var red_team: Array = []
-var pink_team: Array = []
-
 func _ready() -> void:
 	print("\nStarting game initialization...")
 	
-	# Create state manager
+	# Create managers
 	var state_manager = StateManager.new()
+	var team_manager = TeamManager.new()
 	add_child(state_manager)
+	add_child(team_manager)
 	state_manager.initialize(5, 5)
 	
-	print("\nCreating red team characters...")
-	# Create red team characters
-	for i in range(2):
-		var character = Character.new()
-		add_child(character)
-		character.initialize(Vector2.ZERO, Color.red)
-		print("Creating red character ", i + 1)
-		state_manager.place_entity(character, Vector2.ZERO)
-		red_team.append(character)
+	# Create teams
+	print("\nCreating teams...")
+	team_manager.create_team("Red Team", Color.red)
+	team_manager.create_team("Pink Team", Color.pink)
+	team_manager.create_team("Fausto", Color.purple)
 	
-	print("\nCreating pink team character...")
-	# Create pink team character
-	var character = Character.new()
-	add_child(character)
-	character.initialize(Vector2.ZERO, Color.pink)
-	state_manager.place_entity(character, Vector2.ZERO)
-	pink_team.append(character)
+	print("\nCreating characters...")
+	# Add characters to all teams
+	for team in team_manager.get_all_teams():
+		for _i in range(2):
+			team_manager.add_character_to_team(team.team_name, state_manager)
 	
-	# Create turn system
+	# Initialize turn system
 	print("\nInitializing turn system...")
 	var turn_system = TurnSystem.new(state_manager)
 	add_child(turn_system)
-	turn_system.initialize_characters(red_team, pink_team)
+	# Get characters from teams
+	var teams = team_manager.get_all_teams()
+	var character_order = []
+	for team in teams:
+		character_order.append_array(team.get_characters())
+	turn_system.initialize_characters(character_order)
 	
-	# Create turn UI (pass turn_system reference)
+	# Create turn UI
 	print("\nCreating turn UI...")
 	var turn_ui = TurnUI.new(turn_system)
 	add_child(turn_ui)
@@ -49,26 +47,23 @@ func _ready() -> void:
 	add_child(info_ui)
 	info_ui.update_map_info(state_manager.current_state)
 	
-	print("\nCreating map view...")
 	# Create map view
+	print("\nCreating map view...")
 	var map_view = MapView.new()
 	add_child(map_view)
 	map_view.initialize(state_manager)
 	map_view.connect("hex_hovered", info_ui, "update_hex_info")
 	map_view.connect("hex_unhovered", info_ui, "clear_hex_info")
 	
+	# Setup turn timer
+	var turn_timer = Timer.new()
+	add_child(turn_timer)
+	turn_timer.wait_time = 2.0
+	turn_timer.connect("timeout", turn_system, "end_current_turn")
+	turn_timer.start()
+	
 	# Start the game
 	print("\nStarting turn system...")
 	turn_system.start_game()
 	
 	print("Game initialization complete!\n")
-
-
-
-	# Setup a timer for automatic turn progression (for testing)
-	var turn_timer = Timer.new()
-	add_child(turn_timer)
-	turn_timer.wait_time = 2.0  # 2 seconds per turn
-	turn_timer.connect("timeout", turn_system, "end_current_turn")
-	turn_timer.start()
-	print("Automatic turn progression started (2 seconds per turn)")
