@@ -50,6 +50,7 @@ func update_hex_info(hex_data: Dictionary, pos: Vector2) -> void:
 	if hex_data.has("occupied") and hex_data["occupied"] != null:
 		var character = hex_data["occupied"]
 		character_info.text = "\nCharacter Info:\n"
+		character_info.text += "Team: %s\n" % character.team_name
 		character_info.text += "Health: %d\n" % character.health
 		character_info.text += "Equipment: %s\n" % (str(character.equipment) if not character.equipment.empty() else "Empty")
 	else:

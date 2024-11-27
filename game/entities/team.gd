@@ -12,7 +12,7 @@ func _init(name: String, color: Color) -> void:
 
 func add_character(character: Character) -> void:
 	characters.append(character)
-	character.team_color = team_color
+	character.initialize(Vector2.ZERO, team_name, team_color)
 	print("Character added to team ", team_name)
 
 func get_characters() -> Array:
