@@ -1,0 +1,2 @@
+# print tree and all files inside ./hex_survival
+tree && for file in $(find ./hex_survival/ -type f); do echo "====== $file ======"; cat "$file"; echo; done
