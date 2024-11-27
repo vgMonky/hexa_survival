@@ -1,20 +1,27 @@
 class_name GameState
 extends Reference
 
-var width: int
-var height: int
-var hex_grid: Dictionary = {}  # Stores biome data
-var entity_positions: Dictionary = {}  # position -> character
+var map_data: Dictionary = {
+	"width": 0,
+	"height": 0,
+	"hexes": {}  # hex_pos -> {biome, resources, entity}
+}
 
-func _init(w: int, h: int) -> void:
-	width = w
-	height = h
+var teams: Dictionary = {
+	"team_data": {},  # team_name -> {color}
+	"members": {}     # team_name -> [character_ids]
+}
 
-func is_valid_position(pos: Vector2) -> bool:
-	return hex_grid.has(pos)
+var entities: Dictionary = {
+	"characters": {},  # id -> {health, team, equipment}
+}
 
-func get_hex_data(pos: Vector2) -> Dictionary:
-	return hex_grid.get(pos, {})
+var turn_data: Dictionary = {
+	"current_round": 0,
+	"current_turn": 0,
+	"turn_order": []  # List of character IDs in turn order
+}
 
-func get_entity_at(pos: Vector2) -> Node:
-	return entity_positions.get(pos)
+func _init(width: int, height: int) -> void:
+	map_data.width = width
+	map_data.height = height

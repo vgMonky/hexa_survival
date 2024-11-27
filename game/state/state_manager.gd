@@ -1,60 +1,69 @@
+# game/state/state_manager.gd
 class_name StateManager
 extends Node
 
 signal state_updated
 
 var current_state: GameState
+var next_entity_id: int = 0
+
+# Systems
+var team_system: TeamSystem = TeamSystem.new()
+var map_system: MapSystem = MapSystem.new() 
 
 func initialize(width: int, height: int) -> void:
-	randomize()
-	current_state = GameState.new(width, height)
-	_generate_initial_state()
-	emit_signal("state_updated")
-	print("State initialized with size: ", width, "x", height)
-	print("Total hexes: ", len(current_state.hex_grid))
+   randomize()
+   current_state = GameState.new(width, height)
+   print("State initialized with size: ", width, "x", height)
+   
+   # Generate initial map
+   apply_state_change({
+	   "type": "generate_map",
+	   "width": width,
+	   "height": height
+   })
 
-func _generate_initial_state() -> void:
-	for q in range(current_state.width):
-		for r in range(current_state.height):
-			var hex_pos = Vector2(q, r)
-			current_state.hex_grid[hex_pos] = {
-				"biome": _random_biome(),
-				"occupied": null
-			}
+func get_new_entity_id() -> int:
+   next_entity_id += 1
+   return next_entity_id - 1
 
-static func _random_biome() -> Dictionary:
-	var chance = randf()
-	if chance < 0.4:
-		return BiomeData.create_woods()
-	elif chance < 0.7:
-		return BiomeData.create_desert()
-	elif chance < 0.9:
-		return BiomeData.create_cave()
-	else:
-		return BiomeData.create_water()
+func apply_state_change(event: Dictionary) -> void:
+   var changes = _process_event(event)
+   if changes.empty():
+	   return
+	   
+   var new_state = _apply_changes(changes)
+   if new_state:
+	   current_state = new_state
+	   emit_signal("state_updated")
+	   print("State updated: ", changes.type)
 
-func place_entity(entity: Node, _pos: Vector2) -> bool:
-	# Get a list of all available positions
-	var available_positions = []
-	for pos in current_state.hex_grid.keys():
-		var hex_data = current_state.hex_grid[pos]
-		if hex_data["biome"]["walkable"] and hex_data["occupied"] == null:
-			available_positions.append(pos)
+func _process_event(event: Dictionary) -> Dictionary:
+   match event.type:
+	   "add_team":
+		   return team_system.process_event(current_state, event)
+	   "generate_map":
+		   return map_system.process_event(current_state, event)
+   return {}
+
+func _apply_changes(changes: Dictionary) -> GameState:
+	var new_state = GameState.new(current_state.map_data.width, current_state.map_data.height)
 	
-	if available_positions.empty():
-		print("No available positions to place character!")
-		return false
+	# Copy existing data
+	new_state.teams = current_state.teams.duplicate(true)
+	new_state.entities = current_state.entities.duplicate(true)
+	new_state.turn_data = current_state.turn_data.duplicate(true)
+	new_state.map_data = current_state.map_data.duplicate(true)
 	
-	# Choose a random available position
-	var chosen_pos = available_positions[randi() % available_positions.size()]
-	var hex_data = current_state.hex_grid[chosen_pos]
-	
-	# Place the character
-	hex_data["occupied"] = entity
-	current_state.entity_positions[chosen_pos] = entity
-	if entity is Character:
-		entity.position = chosen_pos
-		print("Placed character at position: ", chosen_pos, " with team color: ", entity.team_color)
-	
-	emit_signal("state_updated")
-	return true
+	# Apply changes
+	match changes.type:
+		"add_team":
+			new_state.teams.team_data[changes.team_name] = {"color": changes.team_color}
+			new_state.teams.members[changes.team_name] = []
+			print("Teams after addition: ", new_state.teams.team_data.keys())
+		"generate_map":
+			new_state.map_data.width = changes.width
+			new_state.map_data.height = changes.height
+			new_state.map_data.hexes = changes.hexes
+			
+	return new_state
