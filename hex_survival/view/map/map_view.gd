@@ -35,7 +35,8 @@ func _create_visual_map() -> void:
 			add_child(hex)
 			var pos = Vector2(q, r)
 			hex.position = _get_hex_position(pos)
-			hex.initialize(pos)
+			var hex_data = state_manager.current_state.map_data.hexes[pos]
+			hex.initialize(pos, hex_data)
 			hex_locations[pos] = hex
 
 func _get_hex_position(pos: Vector2) -> Vector2:

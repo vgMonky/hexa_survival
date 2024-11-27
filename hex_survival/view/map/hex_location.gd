@@ -6,6 +6,7 @@ const HEX_SIZE = 32
 
 var hex_pos: Vector2
 var is_hovered: bool = false
+var biome_data: Dictionary
 
 func _ready() -> void:
 	connect("mouse_entered", self, "_on_mouse_entered")
@@ -17,14 +18,17 @@ func _ready() -> void:
 	collision_shape.shape.radius = HEX_SIZE / 1.5
 	add_child(collision_shape)
 
-func initialize(pos: Vector2) -> void:
+func initialize(pos: Vector2, hex_data: Dictionary = {}) -> void:
 	hex_pos = pos
+	if hex_data.has("biome_data"):
+		biome_data = hex_data.biome_data
 	update()
 
 func _draw() -> void:
 	var points = _get_hex_points()
-	# Draw the hex shape
-	draw_colored_polygon(points, Color.gray)
+	# Draw the hex shape with biome color
+	var color = biome_data.get("color", Color.gray)
+	draw_colored_polygon(points, color)
 	# Draw the hex border
 	if is_hovered:
 		draw_polyline(points + [points[0]], Color.yellow, 3.0)

@@ -47,12 +47,35 @@ func update_state_info(state: GameState, hovered_hex) -> void:
 
 	if hovered_hex in state.map_data.hexes:
 		var hex_data = state.map_data.hexes[hovered_hex]
+		# Display biome type
 		hex_label = Label.new()
 		hex_label.text = "Biome: %s" % str(hex_data.get("biome", "None"))
 		hex_info.add_child(hex_label)
+		
+		# Display walkability
 		hex_label = Label.new()
-		hex_label.text = "Resources: %s" % str(hex_data.get("resources", "None"))
+		var walkable = hex_data.get("biome_data", {}).get("walkable", false)
+		hex_label.text = "Walkable: %s" % ("Yes" if walkable else "No")
 		hex_info.add_child(hex_label)
+		
+		# Display resources and their chances
+		var resources = hex_data.get("biome_data", {}).get("resources", {})
+		if resources.empty():
+			hex_label = Label.new()
+			hex_label.text = "Resources: None"
+			hex_info.add_child(hex_label)
+		else:
+			hex_label = Label.new()
+			hex_label.text = "Resources:"
+			hex_info.add_child(hex_label)
+			
+			for resource in resources:
+				var chance = resources[resource] * 100
+				hex_label = Label.new()
+				hex_label.text = "  - %s: %.1f%%" % [resource, chance]
+				hex_info.add_child(hex_label)
+		
+		# Display entity if any
 		hex_label = Label.new()
 		hex_label.text = "Entity: %s" % str(hex_data.get("entity", "None"))
 		hex_info.add_child(hex_label)

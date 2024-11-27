@@ -10,6 +10,7 @@ var next_entity_id: int = 0
 # Systems
 var team_system: TeamSystem = TeamSystem.new()
 var map_system: MapSystem = MapSystem.new() 
+var biome_system: BiomeSystem = BiomeSystem.new()
 
 func initialize(width: int, height: int) -> void:
    randomize()
@@ -39,12 +40,16 @@ func apply_state_change(event: Dictionary) -> void:
 	   print("State updated: ", changes.type)
 
 func _process_event(event: Dictionary) -> Dictionary:
-   match event.type:
-	   "add_team":
-		   return team_system.process_event(current_state, event)
-	   "generate_map":
-		   return map_system.process_event(current_state, event)
-   return {}
+	match event.type:
+		"add_team":
+			return team_system.process_event(current_state, event)
+		"generate_map":
+			# Chain the systems: MapSystem creates structure, BiomeSystem applies biomes
+			var map_result = map_system.process_event(current_state, event)
+			if map_result.empty():
+				return {}
+			return biome_system.process_event(current_state, map_result)
+	return {}
 
 func _apply_changes(changes: Dictionary) -> GameState:
 	var new_state = GameState.new(current_state.map_data.width, current_state.map_data.height)
