@@ -12,47 +12,47 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "BaseSystem",
 "language": "GDScript",
-"path": "res://game/systems/base_system.gd"
+"path": "res://hex_survival/game/systems/base_system.gd"
 }, {
 "base": "Reference",
 "class": "GameState",
 "language": "GDScript",
-"path": "res://game/state/game_state.gd"
+"path": "res://hex_survival/game/state/game_state.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "HexLocation",
 "language": "GDScript",
-"path": "res://view/map/hex_location.gd"
+"path": "res://hex_survival/view/map/hex_location.gd"
 }, {
-"base": "UIBox",
+"base": "Reference",
 "class": "InfoUI",
 "language": "GDScript",
-"path": "res://view/ui/info_ui.gd"
+"path": "res://hex_survival/view/ui/info_ui.gd"
 }, {
-"base": "BaseSystem",
+"base": "Reference",
 "class": "MapSystem",
 "language": "GDScript",
-"path": "res://game/systems/map_system.gd"
+"path": "res://hex_survival/game/systems/map_system.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "MapView",
 "language": "GDScript",
-"path": "res://view/map/map_view.gd"
+"path": "res://hex_survival/view/map/map_view.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "StateManager",
 "language": "GDScript",
-"path": "res://game/state/state_manager.gd"
+"path": "res://hex_survival/game/state/state_manager.gd"
 }, {
-"base": "BaseSystem",
+"base": "Reference",
 "class": "TeamSystem",
 "language": "GDScript",
-"path": "res://game/systems/team_system.gd"
+"path": "res://hex_survival/game/systems/team_system.gd"
 }, {
-"base": "Control",
+"base": "Reference",
 "class": "UIBox",
 "language": "GDScript",
-"path": "res://view/ui/ui_box.gd"
+"path": "res://hex_survival/view/ui/ui_box.gd"
 } ]
 _global_script_class_icons={
 "BaseSystem": "",
@@ -69,7 +69,7 @@ _global_script_class_icons={
 [application]
 
 config/name="hexa_survival"
-run/main_scene="res://main.tscn"
+run/main_scene="res://hex_survival/main.tscn"
 
 [global]
 
