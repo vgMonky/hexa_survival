@@ -3,7 +3,7 @@ extends Node2D
 func _ready() -> void:
 	var state_manager = StateManager.new()
 	add_child(state_manager)
-	state_manager.initialize(8, 5)
+	state_manager.initialize(7, 5)
 	
 	state_manager.apply_state_change({
 		"type": "add_team",

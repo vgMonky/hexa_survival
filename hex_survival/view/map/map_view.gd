@@ -34,6 +34,7 @@ func _create_visual_map() -> void:
 				HexLocation.HEX_SIZE * (3.0/2.0 * q),
 				HexLocation.HEX_SIZE * (sqrt(3)/2.0 * q + sqrt(3) * r)
 			)
+			hex.initialize(pos)  # Pass the hex coordinates to initialize()
 			hex_locations[pos] = hex
 
 func _center_camera() -> void:

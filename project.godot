@@ -19,12 +19,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/game/state/game_state.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "HexLocation",
 "language": "GDScript",
 "path": "res://hex_survival/view/map/hex_location.gd"
 }, {
-"base": "Reference",
+"base": "UIBox",
 "class": "InfoUI",
 "language": "GDScript",
 "path": "res://hex_survival/view/ui/info_ui.gd"
@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/game/systems/map_system.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "MapView",
 "language": "GDScript",
 "path": "res://hex_survival/view/map/map_view.gd"
