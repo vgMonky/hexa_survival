@@ -6,7 +6,7 @@ func _ready() -> void:
 	# Create state manager
 	var state_manager = StateManager.new()
 	add_child(state_manager)
-	state_manager.initialize(5, 5)
+	state_manager.initialize(10, 10)
 	
 	print("\nCreating red team characters...")
 	# Create red team characters

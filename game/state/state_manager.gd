@@ -33,7 +33,7 @@ static func _random_biome() -> Dictionary:
 	else:
 		return BiomeData.create_water()
 
-func place_entity(entity: Node, _pos: Vector2) -> bool:  # Added underscore to unused parameter
+func place_entity(entity: Node, _pos: Vector2) -> bool:
 	# Get a list of all available positions
 	var available_positions = []
 	for pos in current_state.hex_grid.keys():
