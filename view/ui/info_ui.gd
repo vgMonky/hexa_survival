@@ -1,32 +1,12 @@
 class_name InfoUI
-extends Control
+extends UIBox
 
-# UI Elements
-var panel: PanelContainer
-var info_container: VBoxContainer
 var map_info: Label
 var hex_info: Label
 var character_info: Label
 
-# Dragging variables
-var dragging: bool = false
-var drag_start_pos: Vector2
-
-func _ready() -> void:
-	# Create panel
-	panel = PanelContainer.new()
-	panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	panel.margin_right = -10
-	panel.margin_top = 10
-	panel.margin_left = -200
-	panel.mouse_filter = Control.MOUSE_FILTER_PASS
-	
-	# Create container for all info
-	info_container = VBoxContainer.new()
-	info_container.margin_left = 10
-	info_container.margin_right = 10
-	info_container.margin_top = 5
-	info_container.margin_bottom = 5
+func _init().("Game Information", Control.PRESET_TOP_RIGHT) -> void:
+	set_margins(-200, 10, -10)
 	
 	# Create labels
 	map_info = Label.new()
@@ -34,13 +14,9 @@ func _ready() -> void:
 	character_info = Label.new()
 	
 	# Add to container
-	info_container.add_child(map_info)
-	info_container.add_child(hex_info)
-	info_container.add_child(character_info)
-	
-	# Build hierarchy
-	panel.add_child(info_container)
-	add_child(panel)
+	content_container.add_child(map_info)
+	content_container.add_child(hex_info)
+	content_container.add_child(character_info)
 	
 	# Initialize empty
 	clear_hex_info()
@@ -85,20 +61,3 @@ func clear_hex_info() -> void:
 	hex_info.text = "\nHover over a hex to see info"
 	character_info.text = ""
 	print("Hex info cleared")
-
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.pressed:
-				dragging = true
-				drag_start_pos = event.position
-				print("Started dragging UI")
-			else:
-				dragging = false
-				print("Stopped dragging UI")
-	
-	elif event is InputEventMouseMotion and dragging:
-		panel.margin_left += event.relative.x
-		panel.margin_right += event.relative.x
-		panel.margin_top += event.relative.y
-		panel.margin_bottom += event.relative.y

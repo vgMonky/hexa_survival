@@ -29,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://view/map/hex_location.gd"
 }, {
-"base": "Control",
+"base": "UIBox",
 "class": "InfoUI",
 "language": "GDScript",
 "path": "res://view/ui/info_ui.gd"
@@ -43,6 +43,21 @@ _global_script_classes=[ {
 "class": "StateManager",
 "language": "GDScript",
 "path": "res://game/state/state_manager.gd"
+}, {
+"base": "Node",
+"class": "TurnSystem",
+"language": "GDScript",
+"path": "res://game/systems/turn_manager.gd"
+}, {
+"base": "UIBox",
+"class": "TurnUI",
+"language": "GDScript",
+"path": "res://view/ui/turn_ui.gd"
+}, {
+"base": "Control",
+"class": "UIBox",
+"language": "GDScript",
+"path": "res://view/ui/ui_box.gd"
 } ]
 _global_script_class_icons={
 "BiomeData": "",
@@ -51,7 +66,10 @@ _global_script_class_icons={
 "HexLocation": "",
 "InfoUI": "",
 "MapView": "",
-"StateManager": ""
+"StateManager": "",
+"TurnSystem": "",
+"TurnUI": "",
+"UIBox": ""
 }
 
 [application]
