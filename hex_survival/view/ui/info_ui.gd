@@ -25,8 +25,6 @@ func update_state_info(state: GameState) -> void:
 	var team_label = Label.new()
 	team_label.text = "Teams: %d" % len(state.teams.team_data)
 	team_info.add_child(team_label)
-
-
 	for team_name in state.teams.team_data:
 		var team_data = state.teams.team_data[team_name]
 		team_label = Label.new()

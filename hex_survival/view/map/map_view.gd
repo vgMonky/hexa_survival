@@ -30,12 +30,15 @@ func _create_visual_map() -> void:
 			var hex = HexLocation.new()
 			add_child(hex)
 			var pos = Vector2(q, r)
-			hex.position = Vector2(
-				HexLocation.HEX_SIZE * (3.0/2.0 * q),
-				HexLocation.HEX_SIZE * (sqrt(3)/2.0 * q + sqrt(3) * r)
-			)
-			hex.initialize(pos)  # Pass the hex coordinates to initialize()
+			hex.position = _get_hex_position(pos)
+			hex.initialize(pos)
 			hex_locations[pos] = hex
+
+func _get_hex_position(pos: Vector2) -> Vector2:
+	return Vector2(
+		HexLocation.HEX_SIZE * (3.0/2.0 * pos.x),
+		HexLocation.HEX_SIZE * (sqrt(3)/2.0 * pos.x + sqrt(3) * pos.y)
+	)
 
 func _center_camera() -> void:
 	if hex_locations.empty():

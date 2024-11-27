@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/game/state/game_state.gd"
 }, {
-"base": "Node2D",
+"base": "Area2D",
 "class": "HexLocation",
 "language": "GDScript",
 "path": "res://hex_survival/view/map/hex_location.gd"
