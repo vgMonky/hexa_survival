@@ -44,7 +44,7 @@ func _process_next_turn(state: GameState) -> Dictionary:
 		"type": "next_turn",
 		"current_turn_index": new_turn_index,
 		"current_round": new_round,
-		"actions_left": ACTIONS_PER_TURN
+		"moves_left": 1  # Reset moves at start of turn
 	}
 
 func get_current_character(state: GameState) -> String:

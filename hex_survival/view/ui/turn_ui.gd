@@ -45,12 +45,10 @@ func update_turn_info(state: GameState) -> void:
 	var current_char = state.entities.characters[current_char_id]
 	var team_color = state.teams.team_data[current_char.team].color
 	
-	print("[TurnUI] Current turn: ", current_char_id, " Round: ", state.turn_data.current_round)
-	
 	round_label.text = "Round: %d" % state.turn_data.current_round
 	current_turn_label.text = "Current Turn: %s\nTeam: %s" % [current_char_id, current_char.team]
 	current_turn_label.modulate = team_color
-	actions_label.text = "Actions Left: %d" % state.turn_data.actions_left
+	actions_label.text = "Moves Left: %d" % state.turn_data.moves_left
 
 func _on_end_turn_pressed() -> void:
 	if state_manager:

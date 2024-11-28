@@ -13,6 +13,7 @@ var map_system: MapSystem = MapSystem.new()
 var biome_system: BiomeSystem = BiomeSystem.new()
 var character_system: CharacterSystem = CharacterSystem.new()
 var turn_system: TurnSystem = TurnSystem.new()
+var movement_system: MovementSystem = MovementSystem.new()
 
 func initialize(width: int, height: int) -> void:
 	randomize()
@@ -71,16 +72,26 @@ func _process_event(event: Dictionary) -> Dictionary:
 				return turn_system.process_event(current_state, {"type": "initialize_turn_order"})
 			return {}
 			
+		"move_character":
+			print("[State] Processing move for: ", event.character_id)
+			return movement_system.process_event(current_state, event)
+			
 		"next_turn":
 			return turn_system.process_event(current_state, event)
 			
 		"add_character":
 			return character_system.process_event(current_state, event)
+			
 		"generate_map":
 			var map_result = map_system.process_event(current_state, event)
 			if map_result.empty():
 				return {}
 			return biome_system.process_event(current_state, map_result)
+			
+		"get_valid_moves":
+			return movement_system.process_event(current_state, event)
+			
+			
 	return {}
 
 func _apply_changes(changes: Dictionary) -> GameState:
@@ -100,13 +111,24 @@ func _apply_changes(changes: Dictionary) -> GameState:
 			new_state.turn_data.turn_order = changes.turn_order
 			new_state.turn_data.current_turn_index = changes.current_turn_index
 			new_state.turn_data.current_round = changes.current_round
-			new_state.turn_data.actions_left = changes.actions_left
-			
+			new_state.turn_data.moves_left = 1  # Initialize with one move
+		
+		"move_character":
+			print("[State] Moving character ", changes.character_id,
+				  " from ", changes.old_position, " to ", changes.new_position)
+			# Update character position
+			new_state.entities.characters[changes.character_id].position = changes.new_position
+			# Update hex entities
+			new_state.map_data.hexes[changes.old_position].entity = null
+			new_state.map_data.hexes[changes.new_position].entity = changes.character_id
+			# Reduce moves left
+			new_state.turn_data.moves_left = 0
+		
 		"next_turn":
 			new_state.turn_data.current_turn_index = changes.current_turn_index
 			new_state.turn_data.current_round = changes.current_round
-			new_state.turn_data.actions_left = changes.actions_left
-			
+			new_state.turn_data.moves_left = 1  # Reset moves for new turn
+		
 		"add_team":
 			print("Adding team to state: ", changes.team_name)
 			new_state.teams.team_data[changes.team_name] = {"color": changes.team_color}
@@ -137,5 +159,7 @@ func _apply_changes(changes: Dictionary) -> GameState:
 			new_state.map_data.width = changes.width
 			new_state.map_data.height = changes.height
 			new_state.map_data.hexes = changes.hexes
+			
+			
 			
 	return new_state

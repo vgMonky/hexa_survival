@@ -11,6 +11,8 @@ const MIN_ZOOM: float = 0.5
 const MAX_ZOOM: float = 2.0
 const ZOOM_SPEED: float = 0.1
 var info_ui: InfoUI
+var selected_character: String = ""
+var valid_moves: Array = []
 
 func _ready() -> void:
 	camera = Camera2D.new()
@@ -38,14 +40,17 @@ func _create_visual_map() -> void:
 	for q in range(state_manager.current_state.map_data.width):
 		for r in range(state_manager.current_state.map_data.height):
 			var hex = HexLocation.new()
-			hex.connect("mouse_entered", self, "_on_hex_mouse_entered", [hex])
-			hex.connect("mouse_exited", self, "_on_hex_mouse_exited", [hex])
 			add_child(hex)
 			var pos = Vector2(q, r)
 			hex.position = _get_hex_position(pos)
 			var hex_data = state_manager.current_state.map_data.hexes[pos]
 			hex.initialize(pos, hex_data)
 			hex_locations[pos] = hex
+			
+			# Connect the signals AFTER initialization
+			hex.connect("mouse_entered", self, "_on_hex_mouse_entered", [hex])
+			hex.connect("mouse_exited", self, "_on_hex_mouse_exited", [hex])
+
 	
 	print("[MapView] Creating character views...")
 	# Get current active character
@@ -90,6 +95,9 @@ func _center_camera() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			_handle_click(get_global_mouse_position())
+	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_WHEEL_UP:
 			zoom_level = clamp(zoom_level - ZOOM_SPEED, MIN_ZOOM, MAX_ZOOM)
 			camera.zoom = Vector2.ONE * zoom_level
@@ -97,6 +105,67 @@ func _input(event: InputEvent) -> void:
 			zoom_level = clamp(zoom_level + ZOOM_SPEED, MIN_ZOOM, MAX_ZOOM)
 			camera.zoom = Vector2.ONE * zoom_level
 
+func _handle_click(global_pos: Vector2) -> void:
+	var clicked_hex = _get_hex_at_position(global_pos)
+	if not clicked_hex:
+		return
+		
+	var current_char_id = state_manager.current_state.turn_data.turn_order[
+		state_manager.current_state.turn_data.current_turn_index
+	]
+	
+	print("[MapView] Clicked hex at: ", clicked_hex.hex_pos, 
+		  " Valid move?: ", clicked_hex.is_valid_move,
+		  " Selected char: ", selected_character)
+	
+	# If we click on the current character
+	if state_manager.current_state.map_data.hexes[clicked_hex.hex_pos].entity == current_char_id:
+		print("[MapView] Selected current character: ", current_char_id)
+		selected_character = current_char_id
+		_show_valid_moves(current_char_id)
+	# If we have a selected character and this is a valid move
+	elif selected_character != "" and clicked_hex.is_valid_move:
+		print("[MapView] Attempting move: ", selected_character, " to ", clicked_hex.hex_pos)
+		state_manager.apply_state_change({
+			"type": "move_character",
+			"character_id": selected_character,
+			"new_position": clicked_hex.hex_pos
+		})
+		_clear_movement_overlay()
+
+func _show_valid_moves(character_id: String) -> void:
+	_clear_movement_overlay()
+	selected_character = character_id  # Store the selected character
+	var move_result = state_manager.movement_system.process_event(state_manager.current_state, {
+		"type": "get_valid_moves",
+		"character_id": character_id
+	})
+	
+	print("[MapView] Showing moves for character: ", selected_character)  # Debug print
+	
+	if move_result.has("valid_positions"):
+		valid_moves = move_result.valid_positions
+		for pos in valid_moves:
+			if hex_locations.has(pos):
+				hex_locations[pos].set_valid_move(true)
+
+func _clear_movement_overlay() -> void:
+	for hex in hex_locations.values():
+		hex.set_valid_move(false)
+
+func _get_hex_at_position(global_pos: Vector2) -> HexLocation:
+	var local_pos = to_local(global_pos)
+	var shortest_distance = INF
+	var closest_hex = null
+	
+	for hex in hex_locations.values():
+		var distance = (hex.position - local_pos).length()
+		if distance < shortest_distance and distance < HexLocation.HEX_SIZE:
+			shortest_distance = distance
+			closest_hex = hex
+	
+	return closest_hex
+		
 func _on_hex_mouse_entered(hex: HexLocation) -> void:
 	_update_info_ui(hex.hex_pos)
 
