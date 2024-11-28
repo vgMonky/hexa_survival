@@ -8,17 +8,30 @@ var current_state: GameState
 var next_entity_id: int = 0
 
 # Systems
-var team_system: TeamSystem = TeamSystem.new()
-var map_system: MapSystem = MapSystem.new() 
-var biome_system: BiomeSystem = BiomeSystem.new()
-var character_system: CharacterSystem = CharacterSystem.new()
-var turn_system: TurnSystem = TurnSystem.new()
-var movement_system: MovementSystem = MovementSystem.new()
+var team_system: TeamSystem
+var map_system: MapSystem
+var biome_system: BiomeSystem
+var character_system: CharacterSystem
+var turn_system: TurnSystem
+var movement_system: MovementSystem
+var resource_system: ResourceSystem
+
+func _init() -> void:
+	print("TIMING: StateManager _init start")
+	team_system = TeamSystem.new()
+	map_system = MapSystem.new()
+	biome_system = BiomeSystem.new()
+	character_system = CharacterSystem.new()
+	turn_system = TurnSystem.new()
+	movement_system = MovementSystem.new()
+	resource_system = ResourceSystem.new()
+	print("TIMING: StateManager _init complete")
 
 func initialize(width: int, height: int) -> void:
+	print("TIMING: StateManager initialize start")
 	randomize()
 	current_state = GameState.new(width, height)
-	print("State initialized with size: ", width, "x", height)
+	print("TIMING: State initialized with size: ", width, "x", height)
 
 	# Generate initial map
 	apply_state_change({
@@ -26,6 +39,7 @@ func initialize(width: int, height: int) -> void:
 		"width": width,
 		"height": height
 	})
+	print("TIMING: StateManager initialize complete")
 
 func get_new_entity_id() -> int:
    next_entity_id += 1
@@ -77,7 +91,24 @@ func _process_event(event: Dictionary) -> Dictionary:
 			return movement_system.process_event(current_state, event)
 			
 		"next_turn":
-			return turn_system.process_event(current_state, event)
+			var turn_result = turn_system.process_event(current_state, event)
+			if turn_result.empty():
+				return {}
+				
+			# Apply turn changes
+			var new_state = _apply_changes(turn_result)
+			if new_state:
+				current_state = new_state
+				
+			# Process resource collection after turn change
+			var collection_result = resource_system.process_event(current_state, event)
+			if not collection_result.empty():
+				return collection_result
+			
+			return turn_result
+			
+		"collect_resources":
+			return event
 			
 		"add_character":
 			return character_system.process_event(current_state, event)
@@ -160,6 +191,25 @@ func _apply_changes(changes: Dictionary) -> GameState:
 			new_state.map_data.height = changes.height
 			new_state.map_data.hexes = changes.hexes
 			
+		"collect_resources":
+			print("[State] Applying resource collections")
+			# Initialize team inventories if they don't exist
+			for team_name in changes.collections.keys():
+				if not new_state.teams.team_data[team_name].has("inventory"):
+					new_state.teams.team_data[team_name]["inventory"] = {}
+					
+			# Add collected resources to team inventories
+			for team_name in changes.collections:
+				var team_collections = changes.collections[team_name]
+				for resource_type in team_collections:
+					if not new_state.teams.team_data[team_name]["inventory"].has(resource_type):
+						new_state.teams.team_data[team_name]["inventory"][resource_type] = 0
+					new_state.teams.team_data[team_name]["inventory"][resource_type] += team_collections[resource_type]
+					print("[State] Team %s now has %d %s" % [
+						team_name,
+						new_state.teams.team_data[team_name]["inventory"][resource_type],
+						resource_type
+					])
 			
 			
 	return new_state

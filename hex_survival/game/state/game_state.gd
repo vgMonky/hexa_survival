@@ -9,7 +9,7 @@ var map_data: Dictionary = {
 }
 
 var teams: Dictionary = {
-	"team_data": {},  # team_name -> {color}
+	"team_data": {},  # team_name -> {color, inventory: {resource_type: amount}}
 	"members": {}     # team_name -> [character_ids]
 }
 

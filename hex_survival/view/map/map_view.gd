@@ -177,7 +177,7 @@ func _update_info_ui(hovered_hex) -> void:
 		info_ui.update_state_info(state_manager.current_state, hovered_hex)
 
 func _on_state_updated() -> void:
-	print("MapView received state update. Characters in state: ", 
-		  state_manager.current_state.entities.characters.keys())
+	if not is_inside_tree():
+		return
 	_create_visual_map()
 	_center_camera()
