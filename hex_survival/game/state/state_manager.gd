@@ -11,6 +11,7 @@ var next_entity_id: int = 0
 var team_system: TeamSystem = TeamSystem.new()
 var map_system: MapSystem = MapSystem.new() 
 var biome_system: BiomeSystem = BiomeSystem.new()
+var character_system: CharacterSystem = CharacterSystem.new()
 
 func initialize(width: int, height: int) -> void:
    randomize()
@@ -42,9 +43,22 @@ func apply_state_change(event: Dictionary) -> void:
 func _process_event(event: Dictionary) -> Dictionary:
 	match event.type:
 		"add_team":
-			return team_system.process_event(current_state, event)
+			# First create the team
+			var team_result = team_system.process_event(current_state, event)
+			if team_result.empty():
+				return {}
+			
+			# Apply team changes to get an updated state before creating characters
+			var team_state = _apply_changes(team_result)
+			if team_state:
+				current_state = team_state
+			
+			# Now create the characters with the updated state
+			return character_system.process_event(current_state, event)
+			
+		"add_character":
+			return character_system.process_event(current_state, event)
 		"generate_map":
-			# Chain the systems: MapSystem creates structure, BiomeSystem applies biomes
 			var map_result = map_system.process_event(current_state, event)
 			if map_result.empty():
 				return {}
@@ -65,7 +79,22 @@ func _apply_changes(changes: Dictionary) -> GameState:
 		"add_team":
 			new_state.teams.team_data[changes.team_name] = {"color": changes.team_color}
 			new_state.teams.members[changes.team_name] = []
-			print("Teams after addition: ", new_state.teams.team_data.keys())
+		
+		"add_team_characters":
+			# Ensure team exists
+			if not new_state.teams.team_data.has(changes.team_name):
+				push_error("Team does not exist: " + changes.team_name)
+				return null
+				
+			# Add characters to entities and team members
+			for char_id in changes.characters:
+				new_state.entities.characters[char_id] = changes.characters[char_id]
+				new_state.teams.members[changes.team_name].append(char_id)
+			
+			# Update hex entities
+			for char_pos in changes.character_positions:
+				new_state.map_data.hexes[char_pos.position].entity = char_pos.character_id
+		
 		"generate_map":
 			new_state.map_data.width = changes.width
 			new_state.map_data.height = changes.height

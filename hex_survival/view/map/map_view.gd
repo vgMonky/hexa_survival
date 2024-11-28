@@ -1,8 +1,10 @@
+# view/map/map_view.gd
 class_name MapView
 extends Node2D
 
 var state_manager: StateManager
 var hex_locations = {}
+var character_views = {}
 var camera: Camera2D
 var zoom_level: float = 1.0
 const MIN_ZOOM: float = 0.5
@@ -23,10 +25,15 @@ func initialize(manager: StateManager, info_ui_instance: InfoUI) -> void:
 	_center_camera()
 
 func _create_visual_map() -> void:
+	# Clear existing hexes and characters
 	for hex in hex_locations.values():
 		hex.queue_free()
+	for character in character_views.values():
+		character.queue_free()
 	hex_locations.clear()
+	character_views.clear()
 	
+	# Create hexes first (they'll be on the bottom layer)
 	for q in range(state_manager.current_state.map_data.width):
 		for r in range(state_manager.current_state.map_data.height):
 			var hex = HexLocation.new()
@@ -38,6 +45,15 @@ func _create_visual_map() -> void:
 			var hex_data = state_manager.current_state.map_data.hexes[pos]
 			hex.initialize(pos, hex_data)
 			hex_locations[pos] = hex
+
+	# Create character views on top
+	for char_id in state_manager.current_state.entities.characters:
+		var char_data = state_manager.current_state.entities.characters[char_id]
+		var team_data = state_manager.current_state.teams.team_data[char_data.team]
+		var char_view = CharacterView.new(char_data, team_data.color)
+		add_child(char_view)
+		char_view.position = _get_hex_position(char_data.position)
+		character_views[char_id] = char_view
 
 func _get_hex_position(pos: Vector2) -> Vector2:
 	return Vector2(

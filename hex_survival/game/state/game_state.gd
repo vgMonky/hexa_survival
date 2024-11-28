@@ -1,3 +1,4 @@
+# game/state/game_state.gd
 class_name GameState
 extends Reference
 
@@ -13,7 +14,7 @@ var teams: Dictionary = {
 }
 
 var entities: Dictionary = {
-	"characters": {},  # id -> {health, team, equipment}
+	"characters": {},  # id -> {health, team, position, equipment}
 }
 
 var turn_data: Dictionary = {

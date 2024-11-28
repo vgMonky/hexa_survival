@@ -1,4 +1,4 @@
-# hex_survival/view/map/hex_location.gd
+# view/map/hex_location.gd
 class_name HexLocation
 extends Area2D
 
@@ -29,17 +29,19 @@ func _draw() -> void:
 	# Draw the hex shape with biome color
 	var color = biome_data.get("color", Color.gray)
 	draw_colored_polygon(points, color)
+	
 	# Draw the hex border
 	if is_hovered:
 		draw_polyline(points + [points[0]], Color.yellow, 3.0)
 	else:
 		draw_polyline(points + [points[0]], Color.black, 1.0)
-	# Draw the hex coordinates as text in the center
-	var text = str(hex_pos)
+	
+	# Draw coordinates
+	var coords_text = str(hex_pos)
 	var font = Control.new().get_font("font")
-	var text_size = font.get_string_size(text)
-	var text_pos = -text_size / 2
-	draw_string(font, text_pos, text, Color.black)
+	var coords_size = font.get_string_size(coords_text)
+	var coords_pos = -coords_size / 2
+	draw_string(font, coords_pos, coords_text, Color.black)
 
 func _get_hex_points() -> Array:
 	var points = []
