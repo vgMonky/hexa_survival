@@ -12,7 +12,6 @@ var is_active: bool = false
 var time_passed: float = 0
 
 func _init(char_data: Dictionary, color: Color) -> void:
-	print("[CharView] Init with color: ", color)
 	character_data = char_data
 	team_color = color
 	z_index = 1

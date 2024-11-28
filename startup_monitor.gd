@@ -1,18 +1,24 @@
 # startup_monitor.gd
 extends Node
 
+const DEBUG_STARTUP = false  # Set to true to see startup timing
+
 func _init():
-	print("TIMING: Autoload _init start")
-	
+	if DEBUG_STARTUP:
+		print("TIMING: Autoload _init start")
+
 func _enter_tree():
-	print("TIMING: Autoload enter tree")
-	
+	if DEBUG_STARTUP:
+		print("TIMING: Autoload enter tree")
+
 func _ready():
-	print("TIMING: Autoload ready")
-	
+	if DEBUG_STARTUP:
+		print("TIMING: Autoload ready")
+
 func _notification(what):
-	match what:
-		NOTIFICATION_INSTANCED:
-			print("TIMING: Autoload instanced")
-		NOTIFICATION_PREDELETE:
-			print("TIMING: Autoload predelete")
+	if DEBUG_STARTUP:
+		match what:
+			NOTIFICATION_INSTANCED:
+				print("TIMING: Autoload instanced")
+			NOTIFICATION_PREDELETE:
+				print("TIMING: Autoload predelete")

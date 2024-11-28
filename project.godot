@@ -123,11 +123,6 @@ run/main_scene="res://hex_survival/main.tscn"
 
 StartupMonitor="*res://startup_monitor.gd"
 
-[debug]
-
-settings/stdout/print_fps=true
-settings/stdout/verbose_stdout=true
-
 [global]
 
 script_classes=[ {

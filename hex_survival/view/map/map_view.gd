@@ -27,7 +27,6 @@ func initialize(manager: StateManager, info_ui_instance: InfoUI) -> void:
 	_center_camera()
 
 func _create_visual_map() -> void:
-	print("[MapView] Creating visuals...")
 	# Clear existing objects
 	for hex in hex_locations.values():
 		hex.queue_free()
@@ -47,29 +46,25 @@ func _create_visual_map() -> void:
 			hex.initialize(pos, hex_data)
 			hex_locations[pos] = hex
 			
-			# Connect the signals AFTER initialization
 			hex.connect("mouse_entered", self, "_on_hex_mouse_entered", [hex])
 			hex.connect("mouse_exited", self, "_on_hex_mouse_exited", [hex])
-
 	
-	print("[MapView] Creating character views...")
-	# Get current active character
+	# Create character views
 	var current_char_id = ""
 	if not state_manager.current_state.turn_data.turn_order.empty():
 		current_char_id = state_manager.current_state.turn_data.turn_order[
 			state_manager.current_state.turn_data.current_turn_index
 		]
 	
-	# Create character views
 	for char_id in state_manager.current_state.entities.characters:
 		var char_data = state_manager.current_state.entities.characters[char_id]
 		var team_data = state_manager.current_state.teams.team_data[char_data.team]
 		var char_view = CharacterView.new(char_data, team_data.color)
 		add_child(char_view)
 		char_view.position = _get_hex_position(char_data.position)
-		char_view.set_active(char_id == current_char_id)  # Set active state
+		char_view.set_active(char_id == current_char_id)
 		character_views[char_id] = char_view
-
+		
 func _get_hex_position(pos: Vector2) -> Vector2:
 	return Vector2(
 		HexLocation.HEX_SIZE * (3.0/2.0 * pos.x),
@@ -113,19 +108,14 @@ func _handle_click(global_pos: Vector2) -> void:
 	var current_char_id = state_manager.current_state.turn_data.turn_order[
 		state_manager.current_state.turn_data.current_turn_index
 	]
-	
-	print("[MapView] Clicked hex at: ", clicked_hex.hex_pos, 
-		  " Valid move?: ", clicked_hex.is_valid_move,
-		  " Selected char: ", selected_character)
+
 	
 	# If we click on the current character
 	if state_manager.current_state.map_data.hexes[clicked_hex.hex_pos].entity == current_char_id:
-		print("[MapView] Selected current character: ", current_char_id)
 		selected_character = current_char_id
 		_show_valid_moves(current_char_id)
 	# If we have a selected character and this is a valid move
 	elif selected_character != "" and clicked_hex.is_valid_move:
-		print("[MapView] Attempting move: ", selected_character, " to ", clicked_hex.hex_pos)
 		state_manager.apply_state_change({
 			"type": "move_character",
 			"character_id": selected_character,

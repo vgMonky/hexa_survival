@@ -38,7 +38,6 @@ func initialize(manager: StateManager) -> void:
 	update_turn_info(state_manager.current_state)
 
 func _on_state_updated() -> void:
-	print("[TurnUI] Updating turn info")
 	update_turn_info(state_manager.current_state)
 
 func update_turn_info(state: GameState) -> void:
@@ -53,7 +52,6 @@ func update_turn_info(state: GameState) -> void:
 
 func _on_end_turn_pressed() -> void:
 	if state_manager:
-		print("[TurnUI] End turn pressed")
 		state_manager.apply_state_change({
 			"type": "next_turn"
 		})
