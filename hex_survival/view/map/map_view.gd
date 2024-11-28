@@ -25,7 +25,7 @@ func initialize(manager: StateManager, info_ui_instance: InfoUI) -> void:
 	_center_camera()
 
 func _create_visual_map() -> void:
-	# Clear existing hexes and characters
+	print("[MapView] Creating visuals...")
 	for hex in hex_locations.values():
 		hex.queue_free()
 	for character in character_views.values():
@@ -33,7 +33,8 @@ func _create_visual_map() -> void:
 	hex_locations.clear()
 	character_views.clear()
 	
-	# Create hexes first (they'll be on the bottom layer)
+	print("Creating hex grid...")
+	# Create hex grid
 	for q in range(state_manager.current_state.map_data.width):
 		for r in range(state_manager.current_state.map_data.height):
 			var hex = HexLocation.new()
@@ -45,10 +46,14 @@ func _create_visual_map() -> void:
 			var hex_data = state_manager.current_state.map_data.hexes[pos]
 			hex.initialize(pos, hex_data)
 			hex_locations[pos] = hex
-
-	# Create character views on top
+	
+	print("[MapView] Creating character views for: ", 
+		  state_manager.current_state.entities.characters.keys())
+	
+	# Create character views
 	for char_id in state_manager.current_state.entities.characters:
 		var char_data = state_manager.current_state.entities.characters[char_id]
+		print("[CharView] Creating %s at %s" % [char_id, char_data.position])
 		var team_data = state_manager.current_state.teams.team_data[char_data.team]
 		var char_view = CharacterView.new(char_data, team_data.color)
 		add_child(char_view)
@@ -98,5 +103,7 @@ func _update_info_ui(hovered_hex) -> void:
 		info_ui.update_state_info(state_manager.current_state, hovered_hex)
 
 func _on_state_updated() -> void:
+	print("MapView received state update. Characters in state: ", 
+		  state_manager.current_state.entities.characters.keys())
 	_create_visual_map()
 	_center_camera()

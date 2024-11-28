@@ -19,8 +19,9 @@ var entities: Dictionary = {
 
 var turn_data: Dictionary = {
 	"current_round": 0,
-	"current_turn": 0,
-	"turn_order": []  # List of character IDs in turn order
+	"current_turn_index": 0,
+	"turn_order": [],    # List of character IDs in turn order
+	"actions_left": 0    # Actions remaining for current character
 }
 
 func _init(width: int, height: int) -> void:

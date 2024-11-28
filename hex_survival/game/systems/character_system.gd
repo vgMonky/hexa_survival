@@ -74,15 +74,15 @@ func _validate_and_create_character(state: GameState, event: Dictionary) -> Dict
 	}
 
 func _create_team_characters(state: GameState, event: Dictionary) -> Dictionary:
-	# Find valid starting position for characters
-	var valid_positions = _find_valid_positions(state, 2) # 2 characters per team
+	print("[Characters] Creating for team: ", event.team_name)
+	var valid_positions = _find_valid_positions(state, 2)
 	if valid_positions.empty():
-		push_error("No valid positions for team characters")
+		print("[Characters] No valid positions found")
 		return {}
 	
 	var characters = {}
 	var character_positions = []
-	for i in range(2): # Create 2 characters per team
+	for i in range(2):
 		var character_id = str(event.team_name) + "_char_" + str(i)
 		var character = Character.new(character_id, event.team_name, valid_positions[i])
 		characters[character_id] = character.to_dict()
@@ -90,6 +90,7 @@ func _create_team_characters(state: GameState, event: Dictionary) -> Dictionary:
 			"character_id": character_id,
 			"position": valid_positions[i]
 		})
+		print("[Character] Created %s at %s" % [character_id, valid_positions[i]])
 	
 	return {
 		"type": "add_team_characters",

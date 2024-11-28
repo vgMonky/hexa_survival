@@ -37,14 +37,21 @@ func process_event(current_state: GameState, event: Dictionary) -> Dictionary:
 	return {}
 
 func _apply_biomes(_state: GameState, event: Dictionary) -> Dictionary:
-	var hexes = event.hexes # Get the hexes from the MapSystem
+	var hexes = event.hexes
+	print("Applying biomes to map...")
 	
+	var biome_counts = {}
 	# Apply biomes to each hex
 	for hex in hexes.values():
 		var biome_type = _get_random_biome()
 		hex.biome = biome_type
 		hex.biome_data = BIOME_TYPES[biome_type]
+		
+		if not biome_counts.has(biome_type):
+			biome_counts[biome_type] = 0
+		biome_counts[biome_type] += 1
 	
+	print("Biome distribution: ", biome_counts)
 	return {
 		"type": "generate_map",
 		"width": event.width,
