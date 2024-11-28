@@ -26,6 +26,7 @@ func initialize(manager: StateManager, info_ui_instance: InfoUI) -> void:
 
 func _create_visual_map() -> void:
 	print("[MapView] Creating visuals...")
+	# Clear existing objects
 	for hex in hex_locations.values():
 		hex.queue_free()
 	for character in character_views.values():
@@ -33,7 +34,6 @@ func _create_visual_map() -> void:
 	hex_locations.clear()
 	character_views.clear()
 	
-	print("Creating hex grid...")
 	# Create hex grid
 	for q in range(state_manager.current_state.map_data.width):
 		for r in range(state_manager.current_state.map_data.height):
@@ -47,17 +47,22 @@ func _create_visual_map() -> void:
 			hex.initialize(pos, hex_data)
 			hex_locations[pos] = hex
 	
-	print("[MapView] Creating character views for: ", 
-		  state_manager.current_state.entities.characters.keys())
+	print("[MapView] Creating character views...")
+	# Get current active character
+	var current_char_id = ""
+	if not state_manager.current_state.turn_data.turn_order.empty():
+		current_char_id = state_manager.current_state.turn_data.turn_order[
+			state_manager.current_state.turn_data.current_turn_index
+		]
 	
 	# Create character views
 	for char_id in state_manager.current_state.entities.characters:
 		var char_data = state_manager.current_state.entities.characters[char_id]
-		print("[CharView] Creating %s at %s" % [char_id, char_data.position])
 		var team_data = state_manager.current_state.teams.team_data[char_data.team]
 		var char_view = CharacterView.new(char_data, team_data.color)
 		add_child(char_view)
 		char_view.position = _get_hex_position(char_data.position)
+		char_view.set_active(char_id == current_char_id)  # Set active state
 		character_views[char_id] = char_view
 
 func _get_hex_position(pos: Vector2) -> Vector2:
