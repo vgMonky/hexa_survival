@@ -29,6 +29,7 @@ func _init(title: String = "Turn Info", pos_preset: int = Control.PRESET_TOP_LEF
 	# End turn button
 	end_turn_button = Button.new()
 	end_turn_button.text = "End Turn"
+# warning-ignore:return_value_discarded
 	end_turn_button.connect("pressed", self, "_on_end_turn_pressed")
 	content.add_child(end_turn_button)
 

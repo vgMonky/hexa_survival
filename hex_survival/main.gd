@@ -8,7 +8,7 @@ func _ready() -> void:
 	
 	state_manager.apply_state_change({
 		"type": "add_team",
-		"team_name": "Red Team",
+		"team_name": "Andre Team",
 		"team_color": Color.red
 	})
 	state_manager.apply_state_change({
