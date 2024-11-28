@@ -1,3 +1,4 @@
+# main.gd
 extends Node2D
 
 func _ready() -> void:
@@ -20,8 +21,13 @@ func _ready() -> void:
 	add_child(info_ui)
 	info_ui.update_state_info(state_manager.current_state, null)
 	
+	var turn_ui = TurnUI.new()
+	add_child(turn_ui)
+	turn_ui.initialize(state_manager)
+	
 	var map_view = MapView.new()
 	add_child(map_view)
 	map_view.initialize(state_manager, info_ui)
 	
-
+	# Connect state updates without passing state as parameter
+	state_manager.connect("state_updated", turn_ui, "_on_state_updated")
