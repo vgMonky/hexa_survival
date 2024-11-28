@@ -5,6 +5,7 @@ extends Node2D
 const CHARACTER_SIZE = 20
 const HIGHLIGHT_PADDING = 4
 const HIGHLIGHT_PULSE_SPEED = 2.0
+const INDEX_FONT_SIZE = 12
 
 var character_data: Dictionary
 var team_color: Color
@@ -28,14 +29,14 @@ func set_active(active: bool) -> void:
 func _draw() -> void:
 	# Draw highlight if active
 	if is_active:
-		var highlight_size = Vector2(CHARACTER_SIZE + HIGHLIGHT_PADDING * 2, 
+		var highlight_size = Vector2(CHARACTER_SIZE + HIGHLIGHT_PADDING * 2,
 								   CHARACTER_SIZE + HIGHLIGHT_PADDING * 2)
 		var highlight_pos = -highlight_size / 2
 		
 		# Create pulsing effect
 		var pulse = (sin(time_passed * HIGHLIGHT_PULSE_SPEED) + 1) / 2
-		var highlight_color = team_color
-		highlight_color.a = 0.3 + (0.2 * pulse)
+		var highlight_color = Color.magenta
+		highlight_color.a = 0.5 + (0.2 * pulse)
 		
 		draw_rect(Rect2(highlight_pos, highlight_size), highlight_color)
 	
@@ -44,3 +45,9 @@ func _draw() -> void:
 	var rect_pos = -rect_size / 2
 	draw_rect(Rect2(rect_pos, rect_size), team_color)
 	draw_rect(Rect2(rect_pos, rect_size), Color.black, false, 2.0)
+	
+	# Draw character index
+	var index = character_data.id.split("_")[-1]  # Gets the last part after "_"
+	var font = Control.new().get_font("font")
+	var index_pos = Vector2.ZERO
+	draw_string(font, index_pos, index, Color.black)

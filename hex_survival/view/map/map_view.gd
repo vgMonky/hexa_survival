@@ -108,7 +108,6 @@ func _handle_click(global_pos: Vector2) -> void:
 	var current_char_id = state_manager.current_state.turn_data.turn_order[
 		state_manager.current_state.turn_data.current_turn_index
 	]
-
 	
 	# If we click on the current character
 	if state_manager.current_state.map_data.hexes[clicked_hex.hex_pos].entity == current_char_id:
