@@ -19,6 +19,8 @@ func _initialize_turn_order(state: GameState) -> Dictionary:
 	for team_name in state.teams.members:
 		all_characters.append_array(state.teams.members[team_name])
 	
+	print("[Turn System] Found characters for turn order:", all_characters)  # Debug print
+	
 	# Randomize initial turn order
 	randomize()
 	all_characters.shuffle()
@@ -28,9 +30,9 @@ func _initialize_turn_order(state: GameState) -> Dictionary:
 		"turn_order": all_characters,
 		"current_turn_index": 0,
 		"current_round": 1,
-		"actions_left": ACTIONS_PER_TURN
+		"moves_left": MovementSystem.MAX_HEX_STEPS
 	}
-
+	
 func _process_next_turn(state: GameState) -> Dictionary:
 	var new_turn_index = state.turn_data.current_turn_index + 1
 	var new_round = state.turn_data.current_round

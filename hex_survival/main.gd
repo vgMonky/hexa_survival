@@ -6,6 +6,7 @@ func _ready() -> void:
 	add_child(state_manager)
 	state_manager.initialize(7, 5)
 	
+	# Create teams first
 	state_manager.apply_state_change({
 		"type": "add_team",
 		"team_name": "Andre Team",
@@ -17,10 +18,24 @@ func _ready() -> void:
 		"team_name": "Vic Team",
 		"team_color": Color.blue
 	})
+	
+	# Create characters with just nickname and team
 	state_manager.apply_state_change({
-		"type": "add_team",
-		"team_name": "teet team",
-		"team_color": Color.purple
+		"type": "create_character",
+		"nickname": "Harry",
+		"team": "Andre Team"
+	})
+	
+	state_manager.apply_state_change({
+		"type": "create_character",
+		"nickname": "Ron",
+		"team": "Vic Team"
+	})
+	
+	state_manager.apply_state_change({
+		"type": "create_character",
+		"nickname": "Tero",
+		"team": "Andre Team"
 	})
 
 	var info_ui = InfoUI.new()

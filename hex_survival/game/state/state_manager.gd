@@ -66,30 +66,26 @@ func _process_event(event: Dictionary) -> Dictionary:
 				print("[Team] Failed to create")
 				return {}
 			
-			var team_state = _apply_changes(team_result)
-			if team_state:
-				current_state = team_state
-				print("[Team] Created successfully")
+			return team_result # Just return team creation result
 			
+		"create_character":
+			print("[Character] Creating character with nickname: ", event.nickname)
 			var character_result = character_system.process_event(current_state, event)
 			if character_result.empty():
-				print("[Characters] Failed to create")
+				print("[Character] Failed to create")
 				return {}
 			
-			print("[Characters] Created for team")
-			
-			# Apply character changes first
+			# Apply character changes
 			var char_state = _apply_changes(character_result)
 			if char_state:
 				current_state = char_state
-				# Now initialize/update turn order with new characters
+				# Initialize/update turn order with new character
 				return turn_system.process_event(current_state, {"type": "initialize_turn_order"})
 			return {}
 			
 		"move_character":
 			print("[State Manager] Processing move")
 			var result = movement_system.process_event(current_state, event)
-			# Make sure we're not automatically triggering next turn
 			print("[State Manager] Move result:", result)
 			return result
 			
@@ -168,6 +164,26 @@ func _apply_changes(changes: Dictionary) -> GameState:
 			new_state.teams.team_data[changes.team_name] = {"color": changes.team_color}
 			new_state.teams.members[changes.team_name] = []
 		   
+		"add_character":
+			# Update entities
+			new_state.entities.characters[changes.character_id] = {
+				"id": changes.character_id,
+				"nickname": changes.nickname,
+				"team": changes.team,
+				"position": changes.position,
+				"max_life": character_system.CHARACTER_CONFIG.max_life,
+				"current_life": changes.life,
+				"equipment": changes.equipment
+			}
+			
+			# Update team members
+			if not new_state.teams.members.has(changes.team):
+				new_state.teams.members[changes.team] = []
+			new_state.teams.members[changes.team].append(changes.character_id)
+			
+			# Update hex entity reference
+			new_state.map_data.hexes[changes.position].entity = changes.character_id
+	 
 		
 		"add_team_characters":
 			print("Adding team characters to state for team: ", changes.team_name)

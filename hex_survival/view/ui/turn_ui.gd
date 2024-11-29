@@ -71,7 +71,7 @@ func update_turn_info(state: GameState) -> void:
 		# Add character label
 		var char_label = Label.new()
 		char_label.text = "%s (%s)" % [
-			char_data.team,
+			char_data.nickname,
 			char_id.split("_")[-1]
 		]
 		char_label.modulate = team_data.color

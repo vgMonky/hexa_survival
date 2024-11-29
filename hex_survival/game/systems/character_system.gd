@@ -4,14 +4,16 @@ extends BaseSystem
 
 class Character:
 	var id: String
+	var nickname: String
 	var team: String
 	var position: Vector2
 	var max_life: int = 10
 	var current_life: int = 10
 	var equipment: Array = []
 
-	func _init(char_id: String, team_name: String, pos: Vector2) -> void:
+	func _init(char_id: String, char_nickname: String, team_name: String, pos: Vector2) -> void:
 		id = char_id
+		nickname = char_nickname
 		team = team_name
 		position = pos
 		current_life = max_life
@@ -19,6 +21,7 @@ class Character:
 	func to_dict() -> Dictionary:
 		return {
 			"id": id,
+			"nickname": nickname,
 			"team": team,
 			"position": position,
 			"max_life": max_life,
@@ -27,7 +30,12 @@ class Character:
 		}
 
 	static func from_dict(data: Dictionary) -> Character:
-		var character = Character.new(data.id, data.team, data.position)
+		var character = Character.new(
+			data.id,
+			data.nickname,
+			data.team,
+			data.position
+		)
 		character.current_life = data.get("current_life", character.max_life)
 		character.equipment = data.get("equipment", [])
 		return character
@@ -42,36 +50,68 @@ func process_event(current_state: GameState, event: Dictionary) -> Dictionary:
 			return _validate_and_create_character(current_state, event)
 		"add_team": # Handle character creation for new team
 			return _create_team_characters(current_state, event)
+		"create_character":
+			return _validate_and_create_character(current_state, event)
 	return {}
 
 func _validate_and_create_character(state: GameState, event: Dictionary) -> Dictionary:
-	# Validate position is within map bounds
-	if not state.map_data.hexes.has(event.position):
-		push_error("Invalid position for character")
+	# Validate team exists
+	if not state.teams.team_data.has(event.team):
+		push_error("Team does not exist: " + event.team)
+		return {}
+		
+	# Find valid position automatically
+	var valid_position = _find_single_valid_position(state)
+	if valid_position == Vector2(-1, -1):
+		push_error("No valid positions available for character")
 		return {}
 	
-	# Check if hex is walkable
-	var hex_data = state.map_data.hexes[event.position]
-	if not hex_data.biome_data.walkable:
-		push_error("Cannot place character on non-walkable hex")
-		return {}
+	# Generate unique ID based on total existing characters
+	var char_id = str(state.entities.characters.size())
 	
-	# Check if hex is occupied
-	if hex_data.entity != null:
-		push_error("Hex already occupied")
-		return {}
+	# Create character
+	var character = Character.new(
+		char_id,
+		event.nickname,
+		event.team,
+		valid_position
+	)
 	
-	var character = Character.new(event.character_id, event.team, event.position)
+	print("[Character] Created %s ('%s') for team %s at %s" % [
+		char_id,
+		event.nickname,
+		event.team,
+		valid_position
+	])
 	
-	# Create character data
 	return {
 		"type": "add_character",
-		"character_id": character.id,
-		"team": character.team,
-		"position": character.position,
+		"character_id": char_id,
+		"nickname": event.nickname,
+		"team": event.team,
+		"position": valid_position,
 		"life": character.current_life,
 		"equipment": character.equipment
 	}
+	
+func _find_single_valid_position(state: GameState) -> Vector2:
+	var all_valid = []
+	
+	# Collect all valid positions
+	for hex_pos in state.map_data.hexes.keys():
+		var hex_data = state.map_data.hexes[hex_pos]
+		if hex_data.biome_data.walkable and hex_data.entity == null:
+			all_valid.append(hex_pos)
+	
+	if all_valid.empty():
+		# Return an invalid position that we can check for
+		return Vector2(-1, -1)  # Using -1,-1 as our "invalid" position
+		
+	# Randomize selection
+	randomize()
+	all_valid.shuffle()
+	
+	return all_valid[0]
 
 func _create_team_characters(state: GameState, event: Dictionary) -> Dictionary:
 	print("[Characters] Creating for team: ", event.team_name)
@@ -84,7 +124,13 @@ func _create_team_characters(state: GameState, event: Dictionary) -> Dictionary:
 	var character_positions = []
 	for i in range(2):
 		var character_id = str(event.team_name) + "_char_" + str(i)
-		var character = Character.new(character_id, event.team_name, valid_positions[i])
+		# Added "Bot" + number as default nickname for auto-created characters
+		var character = Character.new(
+			character_id,
+			"Bot" + str(i),  # Default nickname
+			event.team_name,
+			valid_positions[i]
+		)
 		characters[character_id] = character.to_dict()
 		character_positions.append({
 			"character_id": character_id,
@@ -98,7 +144,7 @@ func _create_team_characters(state: GameState, event: Dictionary) -> Dictionary:
 		"characters": characters,
 		"character_positions": character_positions
 	}
-
+	
 func _find_valid_positions(state: GameState, count: int) -> Array:
 	var valid_positions = []
 	var all_valid = []
