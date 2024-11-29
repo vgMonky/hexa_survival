@@ -35,16 +35,16 @@ func _process_next_turn(state: GameState) -> Dictionary:
 	var new_turn_index = state.turn_data.current_turn_index + 1
 	var new_round = state.turn_data.current_round
 	
-	# If we've gone through all characters, start a new round
 	if new_turn_index >= state.turn_data.turn_order.size():
 		new_turn_index = 0
 		new_round += 1
-	
+		
+	print("[Turn System] Initializing new turn with moves:", MovementSystem.MAX_MOVE)
 	return {
 		"type": "next_turn",
 		"current_turn_index": new_turn_index,
 		"current_round": new_round,
-		"moves_left": 1  # Reset moves at start of turn
+		"moves_left": MovementSystem.MAX_MOVE  # This should be 2, not 1
 	}
 
 func get_current_character(state: GameState) -> String:

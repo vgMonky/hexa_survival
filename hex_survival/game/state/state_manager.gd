@@ -87,8 +87,11 @@ func _process_event(event: Dictionary) -> Dictionary:
 			return {}
 			
 		"move_character":
-			print("[State] Processing move for: ", event.character_id)
-			return movement_system.process_event(current_state, event)
+			print("[State Manager] Processing move")
+			var result = movement_system.process_event(current_state, event)
+			# Make sure we're not automatically triggering next turn
+			print("[State Manager] Move result:", result)
+			return result
 			
 		"next_turn":
 			var turn_result = turn_system.process_event(current_state, event)
@@ -126,7 +129,7 @@ func _process_event(event: Dictionary) -> Dictionary:
 	return {}
 
 func _apply_changes(changes: Dictionary) -> GameState:
-	print("Applying changes of type: ", changes.type)
+	print("[State Manager] Applying changes of type:", changes.type)
 	var new_state = GameState.new(current_state.map_data.width, current_state.map_data.height)
 	
 	# Copy existing data
@@ -142,23 +145,23 @@ func _apply_changes(changes: Dictionary) -> GameState:
 			new_state.turn_data.turn_order = changes.turn_order
 			new_state.turn_data.current_turn_index = changes.current_turn_index
 			new_state.turn_data.current_round = changes.current_round
-			new_state.turn_data.moves_left = 1  # Initialize with one move
+			new_state.turn_data.moves_left = MovementSystem.MAX_MOVE
 		
 		"move_character":
-			print("[State] Moving character ", changes.character_id,
-				  " from ", changes.old_position, " to ", changes.new_position)
+			print("[State Manager] Before move - moves_left:", new_state.turn_data.moves_left)
 			# Update character position
 			new_state.entities.characters[changes.character_id].position = changes.new_position
 			# Update hex entities
 			new_state.map_data.hexes[changes.old_position].entity = null
 			new_state.map_data.hexes[changes.new_position].entity = changes.character_id
-			# Reduce moves left
-			new_state.turn_data.moves_left = 0
-		
+			# Update moves_left with the new value
+			new_state.turn_data.moves_left = changes.moves_left
+			print("[State Manager] After move - moves_left:", new_state.turn_data.moves_left)
+			
 		"next_turn":
 			new_state.turn_data.current_turn_index = changes.current_turn_index
 			new_state.turn_data.current_round = changes.current_round
-			new_state.turn_data.moves_left = 1  # Reset moves for new turn
+			new_state.turn_data.moves_left = MovementSystem.MAX_MOVE
 		
 		"add_team":
 			print("Adding team to state: ", changes.team_name)

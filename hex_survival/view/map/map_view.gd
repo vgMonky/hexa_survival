@@ -105,23 +105,33 @@ func _handle_click(global_pos: Vector2) -> void:
 	if not clicked_hex:
 		return
 		
+	print("[Map View] Handling click at hex:", clicked_hex.hex_pos)
+	print("[Map View] Current moves left:", state_manager.current_state.turn_data.moves_left)
+	
 	var current_char_id = state_manager.current_state.turn_data.turn_order[
 		state_manager.current_state.turn_data.current_turn_index
 	]
 	
 	# If we click on the current character
 	if state_manager.current_state.map_data.hexes[clicked_hex.hex_pos].entity == current_char_id:
+		print("[Map View] Selected current character:", current_char_id)
 		selected_character = current_char_id
 		_show_valid_moves(current_char_id)
-	# If we have a selected character and this is a valid move
 	elif selected_character != "" and clicked_hex.is_valid_move:
+		print("[Map View] Moving character", selected_character, "to", clicked_hex.hex_pos)
 		state_manager.apply_state_change({
 			"type": "move_character",
 			"character_id": selected_character,
 			"new_position": clicked_hex.hex_pos
 		})
-		_clear_movement_overlay()
-
+		# Don't clear movement overlay if we still have moves left
+		if state_manager.current_state.turn_data.moves_left > 0:
+			_show_valid_moves(selected_character)  # Show remaining valid moves
+		else:
+			_clear_movement_overlay()
+			# Only clear selected character if no moves left
+			selected_character = ""
+			
 func _show_valid_moves(character_id: String) -> void:
 	_clear_movement_overlay()
 	selected_character = character_id  # Store the selected character
