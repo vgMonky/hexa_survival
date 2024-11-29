@@ -39,12 +39,12 @@ func _process_next_turn(state: GameState) -> Dictionary:
 		new_turn_index = 0
 		new_round += 1
 		
-	print("[Turn System] Initializing new turn with moves:", MovementSystem.MAX_MOVE)
+	print("[Turn System] Initializing new turn with moves:", MovementSystem.MAX_HEX_STEPS)
 	return {
 		"type": "next_turn",
 		"current_turn_index": new_turn_index,
 		"current_round": new_round,
-		"moves_left": MovementSystem.MAX_MOVE  # This should be 2, not 1
+		"moves_left": MovementSystem.MAX_HEX_STEPS   # This should be 2, not 1
 	}
 
 func get_current_character(state: GameState) -> String:

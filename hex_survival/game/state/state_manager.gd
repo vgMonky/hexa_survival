@@ -145,7 +145,7 @@ func _apply_changes(changes: Dictionary) -> GameState:
 			new_state.turn_data.turn_order = changes.turn_order
 			new_state.turn_data.current_turn_index = changes.current_turn_index
 			new_state.turn_data.current_round = changes.current_round
-			new_state.turn_data.moves_left = MovementSystem.MAX_MOVE
+			new_state.turn_data.moves_left = MovementSystem.MAX_HEX_STEPS
 		
 		"move_character":
 			print("[State Manager] Before move - moves_left:", new_state.turn_data.moves_left)
@@ -161,7 +161,7 @@ func _apply_changes(changes: Dictionary) -> GameState:
 		"next_turn":
 			new_state.turn_data.current_turn_index = changes.current_turn_index
 			new_state.turn_data.current_round = changes.current_round
-			new_state.turn_data.moves_left = MovementSystem.MAX_MOVE
+			new_state.turn_data.moves_left = MovementSystem.MAX_HEX_STEPS 
 		
 		"add_team":
 			print("Adding team to state: ", changes.team_name)
