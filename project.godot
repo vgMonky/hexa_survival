@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/view/ui/teams_ui.gd"
 }, {
+"base": "Control",
+"class": "TurnCharacterView",
+"language": "GDScript",
+"path": "res://hex_survival/view/ui/turn_character_view.gd"
+}, {
 "base": "BaseSystem",
 "class": "TurnSystem",
 "language": "GDScript",
@@ -109,6 +114,7 @@ _global_script_class_icons={
 "StateManager": "",
 "TeamSystem": "",
 "TeamsUI": "",
+"TurnCharacterView": "",
 "TurnSystem": "",
 "TurnUI": "",
 "UIBox": ""
