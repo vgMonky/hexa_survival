@@ -7,8 +7,8 @@ var hex_info: VBoxContainer
 var character_info: VBoxContainer
 
 const ITEM_ICONS = {
-	"wooden_sword": preload("res://hex_survival/view/assets/items/sword.png"),
-	"wooden_shield": preload("res://hex_survival/view/assets/items/shield.jpg")
+	"wooden_sword": preload("res://assets/items/sword.png"),
+	"wooden_shield": preload("res://assets/items/shield.jpg")
 }
 
 func _init(title: String = "", pos_preset: int = Control.PRESET_TOP_RIGHT).(title, pos_preset) -> void:

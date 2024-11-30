@@ -2,24 +2,15 @@
 class_name CraftingSystem
 extends BaseSystem
 
-const CRAFTABLE_ITEMS = {
-	"wooden_sword": {
-		"name": "Wooden Sword",
-		"type": "weapon",
-		"damage": 2,
-		"costs": {
-			"wood": 3
-		}
-	},
-	"wooden_shield": {
-		"name": "Wooden Shield", 
-		"type": "shield",
-		"defense": 1,
-		"costs": {
-			"wood": 2
-		}
-	}
-}
+var item_registry: ItemRegistry
+
+func _init() -> void:
+	item_registry = ItemRegistry.new()
+	_register_items()
+
+func _register_items() -> void:
+	item_registry.register_item(WoodenSword.new())
+	item_registry.register_item(WoodenShield.new())
 
 func process_event(current_state: GameState, event: Dictionary) -> Dictionary:
 	match event.type:
@@ -32,9 +23,11 @@ func _process_craft_item(state: GameState, event: Dictionary) -> Dictionary:
 	var item_id = event.item_id
 	
 	# Validate item exists
-	if not CRAFTABLE_ITEMS.has(item_id):
+	if not item_registry.has_item(item_id):
 		push_error("Invalid item: " + item_id)
 		return {}
+	
+	var item = item_registry.get_item(item_id)
 	
 	# Get character and team data
 	var character = state.entities.characters[character_id]
@@ -46,9 +39,8 @@ func _process_craft_item(state: GameState, event: Dictionary) -> Dictionary:
 		return {}
 	
 	# Check if team has required resources
-	var item_data = CRAFTABLE_ITEMS[item_id]
-	for resource in item_data.costs:
-		var required = item_data.costs[resource]
+	for resource in item.costs:
+		var required = item.costs[resource]
 		var available = team_data.get("inventory", {}).get(resource, 0)
 		if available < required:
 			push_error("Insufficient resources: " + resource)
@@ -56,17 +48,12 @@ func _process_craft_item(state: GameState, event: Dictionary) -> Dictionary:
 	
 	# Create updated team inventory
 	var new_inventory = team_data.get("inventory", {}).duplicate()
-	for resource in item_data.costs:
-		new_inventory[resource] -= item_data.costs[resource]
+	for resource in item.costs:
+		new_inventory[resource] -= item.costs[resource]
 	
 	# Create updated character equipment
 	var new_equipment = character.equipment.duplicate()
-	new_equipment.append({
-		"id": item_id,
-		"name": item_data.name,
-		"type": item_data.type,
-		"stats": item_data
-	})
+	new_equipment.append(item.to_dict())
 	
 	return {
 		"type": "craft_item",

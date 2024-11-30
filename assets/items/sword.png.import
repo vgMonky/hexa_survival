@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shield.jpg-931758b5711f297982ea20028a5f7ced.stex"
+path="res://.import/sword.png-847a038487b8fb3480b77e98fb70eb52.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://hex_survival/view/assets/items/shield.jpg"
-dest_files=[ "res://.import/shield.jpg-931758b5711f297982ea20028a5f7ced.stex" ]
+source_file="res://assets/items/sword.png"
+dest_files=[ "res://.import/sword.png-847a038487b8fb3480b77e98fb70eb52.stex" ]
 
 [params]
 

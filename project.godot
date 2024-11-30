@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
+"class": "BaseItem",
+"language": "GDScript",
+"path": "res://hex_survival/game/systems/items/base_item.gd"
+}, {
+"base": "Reference",
 "class": "BaseSystem",
 "language": "GDScript",
 "path": "res://hex_survival/game/systems/base_system.gd"
@@ -53,6 +58,11 @@ _global_script_classes=[ {
 "class": "InfoUI",
 "language": "GDScript",
 "path": "res://hex_survival/view/ui/info_ui.gd"
+}, {
+"base": "Reference",
+"class": "ItemRegistry",
+"language": "GDScript",
+"path": "res://hex_survival/game/systems/items/item_registry.gd"
 }, {
 "base": "BaseSystem",
 "class": "MapSystem",
@@ -108,8 +118,19 @@ _global_script_classes=[ {
 "class": "UIBox",
 "language": "GDScript",
 "path": "res://hex_survival/view/ui/ui_box.gd"
+}, {
+"base": "BaseItem",
+"class": "WoodenShield",
+"language": "GDScript",
+"path": "res://hex_survival/game/systems/items/items/wooden_shield.gd"
+}, {
+"base": "BaseItem",
+"class": "WoodenSword",
+"language": "GDScript",
+"path": "res://hex_survival/game/systems/items/items/wooden_sword.gd"
 } ]
 _global_script_class_icons={
+"BaseItem": "",
 "BaseSystem": "",
 "BiomeSystem": "",
 "CharacterSystem": "",
@@ -119,6 +140,7 @@ _global_script_class_icons={
 "GameState": "",
 "HexLocation": "",
 "InfoUI": "",
+"ItemRegistry": "",
 "MapSystem": "",
 "MapView": "",
 "MovementSystem": "",
@@ -129,7 +151,9 @@ _global_script_class_icons={
 "TurnCharacterView": "",
 "TurnSystem": "",
 "TurnUI": "",
-"UIBox": ""
+"UIBox": "",
+"WoodenShield": "",
+"WoodenSword": ""
 }
 
 [application]

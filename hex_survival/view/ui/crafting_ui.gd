@@ -3,8 +3,8 @@ class_name CraftingUI
 extends UIBox
 
 const ITEM_ICONS = {
-	"wooden_sword": preload("res://hex_survival/view/assets/items/sword.png"),
-	"wooden_shield": preload("res://hex_survival/view/assets/items/shield.jpg")
+	"wooden_sword": preload("res://assets/items/sword.png"),
+	"wooden_shield": preload("res://assets/items/shield.jpg")
 }
 
 var state_manager: StateManager
@@ -121,19 +121,20 @@ func _clear_craft_buttons() -> void:
 func _update_craft_buttons(team_data: Dictionary) -> void:
 	_clear_craft_buttons()
 	
-	for item_id in state_manager.crafting_system.CRAFTABLE_ITEMS:
-		var item_data = state_manager.crafting_system.CRAFTABLE_ITEMS[item_id]
+	# Use the item registry instead of CRAFTABLE_ITEMS
+	for item_id in state_manager.crafting_system.item_registry.items:
+		var item = state_manager.crafting_system.item_registry.items[item_id]
 		
 		# Create button container for icon and cost
 		var h_box = HBoxContainer.new()
-		h_box.add_constant_override("separation", 10)  # Add some spacing
+		h_box.add_constant_override("separation", 10)
 		items_container.add_child(h_box)
 		
 		# Create and add item icon
-		if ITEM_ICONS.has(item_id):
+		if ITEM_ICONS.has(item.id):
 			var icon = TextureRect.new()
-			icon.texture = ITEM_ICONS[item_id]
-			icon.rect_min_size = Vector2(32, 32)  # Set icon size
+			icon.texture = ITEM_ICONS[item.id]
+			icon.rect_min_size = Vector2(32, 32)
 			icon.expand = true
 			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			h_box.add_child(icon)
@@ -144,21 +145,21 @@ func _update_craft_buttons(team_data: Dictionary) -> void:
 		var can_craft = true
 		
 		# Check if we have enough resources
-		for resource in item_data.costs:
-			var required = item_data.costs[resource]
+		for resource in item.costs:
+			var required = item.costs[resource]
 			var available = team_data.get("inventory", {}).get(resource, 0)
 			cost_text += " (%d/%d %s)" % [available, required, resource]
 			if available < required:
 				can_craft = false
 		
-		button.text = item_data.name + cost_text
+		button.text = item.name + cost_text
 		button.disabled = not can_craft
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		h_box.add_child(button)
 		
 		# Connect button signal
-		button.connect("pressed", self, "_on_craft_item", [item_id])
-
+		button.connect("pressed", self, "_on_craft_item", [item.id])
+		
 func _on_craft_item(item_id: String) -> void:
 	var current_char_id = _get_current_character_id()
 	if current_char_id.empty():

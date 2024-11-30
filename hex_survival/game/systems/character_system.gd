@@ -47,7 +47,7 @@ class Character:
 
 const CHARACTER_CONFIG = {
 	"max_life": 10,
-	"max_equipment": 3
+	"max_equipment": 2
 }
 
 func process_event(current_state: GameState, event: Dictionary) -> Dictionary:
