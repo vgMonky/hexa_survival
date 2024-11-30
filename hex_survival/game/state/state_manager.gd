@@ -177,7 +177,8 @@ func _apply_changes(changes: Dictionary) -> GameState:
 				"position": changes.position,
 				"max_life": character_system.CHARACTER_CONFIG.max_life,
 				"current_life": changes.life,
-				"equipment": changes.equipment
+				"equipment": changes.equipment,
+				"max_equipment": changes.max_equipment  # Add this line
 			}
 			
 			# Update team members

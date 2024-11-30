@@ -73,7 +73,10 @@ func update_ui() -> void:
 		
 	# Add equipment header
 	var equip_header = Label.new()
-	equip_header.text = "\nEquipment:"
+	equip_header.text = "\nEquipment (%d/%d slots):" % [
+		char_data.equipment.size(),
+		char_data.max_equipment  # Use the value directly from character data
+	]
 	equipment_container.add_child(equip_header)
 	
 	# Add equipment items

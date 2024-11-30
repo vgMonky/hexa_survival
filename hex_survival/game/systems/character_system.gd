@@ -7,16 +7,19 @@ class Character:
 	var nickname: String
 	var team: String
 	var position: Vector2
-	var max_life: int = 10
-	var current_life: int = 10
+	var max_life: int
+	var current_life: int
 	var equipment: Array = []
-
+	var max_equipment: int
+	
 	func _init(char_id: String, char_nickname: String, team_name: String, pos: Vector2) -> void:
 		id = char_id
 		nickname = char_nickname
 		team = team_name
 		position = pos
+		max_life = CHARACTER_CONFIG.max_life
 		current_life = max_life
+		max_equipment = CHARACTER_CONFIG.max_equipment 
 
 	func to_dict() -> Dictionary:
 		return {
@@ -26,7 +29,8 @@ class Character:
 			"position": position,
 			"max_life": max_life,
 			"current_life": current_life,
-			"equipment": equipment
+			"equipment": equipment,
+			"max_equipment": max_equipment
 		}
 
 	static func from_dict(data: Dictionary) -> Character:
@@ -38,10 +42,12 @@ class Character:
 		)
 		character.current_life = data.get("current_life", character.max_life)
 		character.equipment = data.get("equipment", [])
+		character.max_equipment = data.get("max_equipment", 2)
 		return character
 
 const CHARACTER_CONFIG = {
-	"max_life": 10
+	"max_life": 10,
+	"max_equipment": 3
 }
 
 func process_event(current_state: GameState, event: Dictionary) -> Dictionary:
@@ -91,7 +97,8 @@ func _validate_and_create_character(state: GameState, event: Dictionary) -> Dict
 		"team": event.team,
 		"position": valid_position,
 		"life": character.current_life,
-		"equipment": character.equipment
+		"equipment": character.equipment,
+		"max_equipment": character.max_equipment  # Add this line
 	}
 	
 func _find_single_valid_position(state: GameState) -> Vector2:

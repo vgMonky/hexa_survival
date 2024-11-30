@@ -40,6 +40,11 @@ func _process_craft_item(state: GameState, event: Dictionary) -> Dictionary:
 	var character = state.entities.characters[character_id]
 	var team_data = state.teams.team_data[character.team]
 	
+	# Check if character has room for more equipment
+	if character.equipment.size() >= character.max_equipment:
+		push_error("Character equipment slots full")
+		return {}
+	
 	# Check if team has required resources
 	var item_data = CRAFTABLE_ITEMS[item_id]
 	for resource in item_data.costs:
