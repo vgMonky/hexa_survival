@@ -2,7 +2,7 @@
 class_name MovementSystem
 extends BaseSystem
 
-const MAX_HEX_STEPS = 4  # Renamed for clarity
+const MAX_HEX_STEPS = 2  # Renamed for clarity
 
 # Added to store pathfinding info
 var path_costs = {}  # pos -> shortest path length to reach it

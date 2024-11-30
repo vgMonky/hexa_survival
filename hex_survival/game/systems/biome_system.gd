@@ -4,14 +4,14 @@ extends BaseSystem
 
 const BIOME_TYPES = {
 	"WOODS": {
-		"color": Color.green,
+		"color": Color.darkgreen,
 		"walkable": true,
 		"resources": {
 			"wood": 0.9  # 90% chance
 		}
 	},
 	"CAVE": {
-		"color": Color.gray,
+		"color": Color.lightslategray,
 		"walkable": true,
 		"resources": {
 			"rock": 0.9,  # 90% chance
@@ -19,7 +19,7 @@ const BIOME_TYPES = {
 		}
 	},
 	"DESERT": {
-		"color": Color.yellow,
+		"color": Color.lightgray,
 		"walkable": true,
 		"resources": {}  # no resources
 	},

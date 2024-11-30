@@ -6,6 +6,11 @@ var map_info: Label
 var hex_info: VBoxContainer
 var character_info: VBoxContainer
 
+const ITEM_ICONS = {
+	"wooden_sword": preload("res://hex_survival/view/assets/items/sword.png"),
+	"wooden_shield": preload("res://hex_survival/view/assets/items/shield.jpg")
+}
+
 func _init(title: String = "", pos_preset: int = Control.PRESET_TOP_RIGHT).(title, pos_preset) -> void:
 	set_margins(-200, 10, -10)
 	map_info = Label.new()
@@ -89,6 +94,26 @@ func update_state_info(state: GameState, hovered_hex) -> void:
 			character_info.add_child(char_label)
 			
 			if not char_data.equipment.empty():
-				char_label = Label.new()
-				char_label.text = "Equipment: %s" % str(char_data.equipment)
-				character_info.add_child(char_label)
+				var equip_header = Label.new()
+				equip_header.text = "Equipment:"
+				character_info.add_child(equip_header)
+				
+				for item in char_data.equipment:
+					var h_box = HBoxContainer.new()
+					h_box.add_constant_override("separation", 5)
+					character_info.add_child(h_box)
+					
+					# Add icon if available
+					if ITEM_ICONS.has(item.id):
+						var icon = TextureRect.new()
+						icon.texture = ITEM_ICONS[item.id]
+						icon.rect_min_size = Vector2(16, 16)
+						icon.expand = true
+						icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+						h_box.add_child(icon)
+					
+					# Add item name
+					var item_label = Label.new()
+					item_label.text = item.name
+					item_label.modulate = team_data.color
+					h_box.add_child(item_label)

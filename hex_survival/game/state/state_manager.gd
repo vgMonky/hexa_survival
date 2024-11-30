@@ -15,6 +15,7 @@ var character_system: CharacterSystem
 var turn_system: TurnSystem
 var movement_system: MovementSystem
 var resource_system: ResourceSystem
+var crafting_system: CraftingSystem
 
 func _init() -> void:
 	print("TIMING: StateManager _init start")
@@ -25,6 +26,7 @@ func _init() -> void:
 	turn_system = TurnSystem.new()
 	movement_system = MovementSystem.new()
 	resource_system = ResourceSystem.new()
+	crafting_system = CraftingSystem.new()
 	print("TIMING: StateManager _init complete")
 
 func initialize(width: int, height: int) -> void:
@@ -121,6 +123,8 @@ func _process_event(event: Dictionary) -> Dictionary:
 		"get_valid_moves":
 			return movement_system.process_event(current_state, event)
 			
+		"craft_item":
+			return crafting_system.process_event(current_state, event)
 			
 	return {}
 
@@ -230,5 +234,10 @@ func _apply_changes(changes: Dictionary) -> GameState:
 						resource_type
 					])
 			
+		"craft_item":
+			# Update team inventory
+			new_state.teams.team_data[changes.team]["inventory"] = changes.new_inventory
+			# Update character equipment
+			new_state.entities.characters[changes.character_id].equipment = changes.new_equipment
 			
 	return new_state

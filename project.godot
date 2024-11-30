@@ -29,6 +29,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/view/map/character_view.gd"
 }, {
+"base": "BaseSystem",
+"class": "CraftingSystem",
+"language": "GDScript",
+"path": "res://hex_survival/game/systems/cafting_system.gd"
+}, {
+"base": "UIBox",
+"class": "CraftingUI",
+"language": "GDScript",
+"path": "res://hex_survival/view/ui/crafting_ui.gd"
+}, {
 "base": "Reference",
 "class": "GameState",
 "language": "GDScript",
@@ -69,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/game/state/state_manager.gd"
 }, {
-"base": "Reference",
+"base": "BaseSystem",
 "class": "TeamSystem",
 "language": "GDScript",
 "path": "res://hex_survival/game/systems/team_system.gd"
@@ -94,7 +104,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/view/ui/turn_ui.gd"
 }, {
-"base": "Reference",
+"base": "Control",
 "class": "UIBox",
 "language": "GDScript",
 "path": "res://hex_survival/view/ui/ui_box.gd"
@@ -104,6 +114,8 @@ _global_script_class_icons={
 "BiomeSystem": "",
 "CharacterSystem": "",
 "CharacterView": "",
+"CraftingSystem": "",
+"CraftingUI": "",
 "GameState": "",
 "HexLocation": "",
 "InfoUI": "",

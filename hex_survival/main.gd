@@ -54,6 +54,11 @@ func _ready() -> void:
 	add_child(teams_ui)
 	teams_ui.initialize(state_manager)
 	
+	# In main.gd, after creating other UIs:
+	var crafting_ui = CraftingUI.new()
+	add_child(crafting_ui)
+	crafting_ui.initialize(state_manager)
+	
 	# Connect state updates
 	state_manager.connect("state_updated", turn_ui, "_on_state_updated")
 	state_manager.connect("state_updated", teams_ui, "_on_state_updated")
