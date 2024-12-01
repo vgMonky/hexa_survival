@@ -30,3 +30,10 @@ func update_map() -> void:
 
 func _on_state_updated() -> void:
 	update_map()
+	
+func get_map_size() -> Vector2:
+	var map_size = state_manager.queries.get_map_size()
+	var hex_size = HexView.HEX_SIZE
+	var map_width = map_size.x * hex_size * 1.5
+	var map_height = map_size.y * hex_size * sqrt(3)
+	return Vector2(map_width, map_height)

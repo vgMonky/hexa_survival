@@ -1,7 +1,7 @@
 extends Node
 
 var state_manager: StateManager
-var map_view: MapView
+var map_view_container: MapViewContainer
 
 func _ready() -> void:
 	print("\n=== Game Starting ===")
@@ -10,10 +10,9 @@ func _ready() -> void:
 	add_child(state_manager)
 	state_manager.initialize(6, 8)
 	
-	map_view = MapView.new(state_manager)
-	add_child(map_view)
-	# Center the map view
-	map_view.position = Vector2(500, 50)  # Adjust as needed
+	map_view_container = MapViewContainer.new(state_manager)
+	add_child(map_view_container)
+
 	
 	# Print sample of hex information
 	print("\nSample of hex tiles:")

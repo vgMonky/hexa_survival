@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/view/map/map_view.gd"
 }, {
+"base": "Node2D",
+"class": "MapViewContainer",
+"language": "GDScript",
+"path": "res://hex_survival/view/map/map_view_container.gd"
+}, {
 "base": "Node",
 "class": "StateManager",
 "language": "GDScript",
@@ -62,6 +67,7 @@ _global_script_class_icons={
 "Map": "",
 "MapEvents": "",
 "MapView": "",
+"MapViewContainer": "",
 "StateManager": "",
 "StateQueries": ""
 }
