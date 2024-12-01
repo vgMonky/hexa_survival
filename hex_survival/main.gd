@@ -1,64 +1,33 @@
-# main.gd
-extends Node2D
+extends Node
+
+var state_manager: StateManager
+var map_view: MapView
 
 func _ready() -> void:
-	var state_manager = StateManager.new()
+	print("\n=== Game Starting ===")
+	
+	state_manager = StateManager.new()
 	add_child(state_manager)
-	state_manager.initialize(7, 5)
+	state_manager.initialize(6, 8)
 	
-	# Create teams first
-	state_manager.apply_state_change({
-		"type": "add_team",
-		"team_name": "Andre Team",
-		"team_color": Color.red
-	})
-	
-	state_manager.apply_state_change({
-		"type": "add_team",
-		"team_name": "Vic Team",
-		"team_color": Color.blue
-	})
-	
-	# Create characters with just nickname and team
-	state_manager.apply_state_change({
-		"type": "create_character",
-		"nickname": "Harry",
-		"team": "Andre Team"
-	})
-	
-	state_manager.apply_state_change({
-		"type": "create_character",
-		"nickname": "Ron",
-		"team": "Vic Team"
-	})
-	
-	state_manager.apply_state_change({
-		"type": "create_character",
-		"nickname": "Tero",
-		"team": "Andre Team"
-	})
-
-	var info_ui = InfoUI.new()
-	add_child(info_ui)
-	info_ui.update_state_info(state_manager.current_state, null)
-	
-	var turn_ui = TurnUI.new()
-	add_child(turn_ui)
-	turn_ui.initialize(state_manager)
-	
-	var map_view = MapView.new()
+	map_view = MapView.new(state_manager)
 	add_child(map_view)
-	map_view.initialize(state_manager, info_ui)
+	# Center the map view
+	map_view.position = Vector2(500, 50)  # Adjust as needed
 	
-	var teams_ui = TeamsUI.new()
-	add_child(teams_ui)
-	teams_ui.initialize(state_manager)
-	
-	# In main.gd, after creating other UIs:
-	var crafting_ui = CraftingUI.new()
-	add_child(crafting_ui)
-	crafting_ui.initialize(state_manager)
-	
-	# Connect state updates
-	state_manager.connect("state_updated", turn_ui, "_on_state_updated")
-	state_manager.connect("state_updated", teams_ui, "_on_state_updated")
+	# Print sample of hex information
+	print("\nSample of hex tiles:")
+	print_hex_at(Vector2(0, 0))
+	print_hex_at(Vector2(3, 2))
+	print_hex_at(Vector2(6, 4))
+
+func print_hex_at(pos: Vector2) -> void:
+	var hex = state_manager.queries.get_hex_at(pos)
+	if hex:
+		print("Hex(%s,%s): %s | Walkable: %s | Resources: %s" % [
+			pos.x, pos.y,
+			hex.biome,
+			hex.biome_data.walkable,
+			hex.biome_data.resources
+		])
+	else: print("no hex at %s" % [pos])
