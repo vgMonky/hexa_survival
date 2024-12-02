@@ -12,13 +12,19 @@ func _ready() -> void:
 	
 	map_view_container = MapViewContainer.new(state_manager)
 	add_child(map_view_container)
-
 	
+	# Create info panel
+	var info_panel = GameInfoPanel.new(state_manager)
+	add_child(info_panel)
+	info_panel.rect_position = Vector2(50, 50)  # Set initial position
+
 	# Print sample of hex information
 	print("\nSample of hex tiles:")
 	print_hex_at(Vector2(0, 0))
 	print_hex_at(Vector2(3, 2))
 	print_hex_at(Vector2(6, 4))
+	
+	state_manager.apply_state_change(MapEvents.transform_biome(Vector2(0, 0), "WOODS"))
 
 func print_hex_at(pos: Vector2) -> void:
 	var hex = state_manager.queries.get_hex_at(pos)

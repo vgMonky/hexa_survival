@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Control",
+"class": "BaseUIPanel",
+"language": "GDScript",
+"path": "res://hex_survival/view/ui/base_ui_panel.gd"
+}, {
 "base": "Reference",
 "class": "BiomeTypes",
 "language": "GDScript",
 "path": "res://hex_survival/game/data/biome_types.gd"
+}, {
+"base": "BaseUIPanel",
+"class": "GameInfoPanel",
+"language": "GDScript",
+"path": "res://hex_survival/view/ui/game_info_panel.gd"
 }, {
 "base": "Reference",
 "class": "GameState",
@@ -49,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/view/map/map_view_container.gd"
 }, {
+"base": "Reference",
+"class": "StateChange",
+"language": "GDScript",
+"path": "res://hex_survival/game/state/state_change.gd"
+}, {
 "base": "Node",
 "class": "StateManager",
 "language": "GDScript",
@@ -60,7 +75,9 @@ _global_script_classes=[ {
 "path": "res://hex_survival/game/state/queries.gd"
 } ]
 _global_script_class_icons={
+"BaseUIPanel": "",
 "BiomeTypes": "",
+"GameInfoPanel": "",
 "GameState": "",
 "HexTile": "",
 "HexView": "",
@@ -68,6 +85,7 @@ _global_script_class_icons={
 "MapEvents": "",
 "MapView": "",
 "MapViewContainer": "",
+"StateChange": "",
 "StateManager": "",
 "StateQueries": ""
 }
