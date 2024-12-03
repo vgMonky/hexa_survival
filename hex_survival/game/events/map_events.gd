@@ -4,7 +4,14 @@ extends Reference
 
 class SetBiomesHandler extends Reference:
 	func process(state: GameState) -> Dictionary:
-		var new_hexes = MapSystem.generate_biome_distribution(state.map_data.hexes)
+		var new_hexes = {}
+		var positions = state.get_all_positions()
+		
+		for pos in positions:
+			var hex_data = state.get_hex_at(pos)
+			var biome_type = BiomeTypes.get_random_type()
+			new_hexes[pos] = MapSystem.create_hex_with_biome(hex_data, biome_type)
+		
 		state.map_data.hexes = new_hexes
 		return {
 			"type": "set_biomes",
@@ -20,12 +27,18 @@ class TransformBiomeHandler extends Reference:
 		new_biome = biome
 	
 	func process(state: GameState) -> Dictionary:
-		# Use system to validate transform
-		if not MapSystem.can_transform_biome(state.map_data.hexes, position):
+		# Check if position exists using query
+		if not state.has_hex_at(position):
 			return {}  # Return empty if position invalid
 			
+		# Get hex data using query
+		var hex_data = state.get_hex_at(position)
+		
+		# Use system to validate transform
+		if not MapSystem.can_transform_biome(state.map_data.hexes, position):
+			return {}
+			
 		# Use system to create new hex data
-		var hex_data = state.map_data.hexes[position]
 		var new_hex = MapSystem.create_hex_with_biome(hex_data, new_biome)
 		state.map_data.hexes[position] = new_hex
 		

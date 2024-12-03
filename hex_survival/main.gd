@@ -29,7 +29,7 @@ func _ready() -> void:
 	print_hex_at(Vector2(0, 0))
 		
 func print_hex_at(pos: Vector2) -> void:
-	var hex = state_manager.queries.get_hex_at(pos)
+	var hex = state_manager.current_state.get_hex_at(pos)
 	if hex:
 		print("Hex(%s,%s): %s | Walkable: %s | Resources: %s" % [
 			pos.x, pos.y,

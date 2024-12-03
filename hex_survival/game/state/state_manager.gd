@@ -6,7 +6,6 @@ extends Node
 # 1. Hold the current game state
 # 2. Apply state changes through events
 # 3. Notify observers when state changes
-# 4. Provide queries to safely read state
 #
 # StateManager should NOT:
 # 1. Contain game logic (that goes in events)
@@ -17,7 +16,6 @@ extends Node
 signal state_updated
 
 var current_state: GameState
-var queries: StateQueries
 
 func _init() -> void:
 	print("StateManager initialized")
@@ -25,7 +23,6 @@ func _init() -> void:
 func initialize(width: int, height: int) -> void:
 	randomize() 
 	current_state = GameState.new(width, height)
-	queries = StateQueries.new(self)
 	print("State initialized with map size: ", width, "x", height)
 	apply_state_change(MapEvents.set_biomes())
 	emit_signal("state_updated")

@@ -86,3 +86,4 @@ Events are particularly useful when:
 - Complex validations or calculations are needed
 - Changes affect multiple parts of the game state
 - You need to track or undo changes
+

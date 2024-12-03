@@ -73,11 +73,6 @@ _global_script_classes=[ {
 "class": "StateManager",
 "language": "GDScript",
 "path": "res://hex_survival/game/state/state_manager.gd"
-}, {
-"base": "Reference",
-"class": "StateQueries",
-"language": "GDScript",
-"path": "res://hex_survival/game/state/queries.gd"
 } ]
 _global_script_class_icons={
 "BaseUIPanel": "",
@@ -92,8 +87,7 @@ _global_script_class_icons={
 "MapView": "",
 "MapViewContainer": "",
 "StateChange": "",
-"StateManager": "",
-"StateQueries": ""
+"StateManager": ""
 }
 
 [application]
