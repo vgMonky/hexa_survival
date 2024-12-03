@@ -26,6 +26,8 @@ func _ready() -> void:
 	
 	state_manager.apply_state_change(MapEvents.transform_biome(Vector2(0, 0), "WOODS"))
 
+	print_hex_at(Vector2(0, 0))
+		
 func print_hex_at(pos: Vector2) -> void:
 	var hex = state_manager.queries.get_hex_at(pos)
 	if hex:

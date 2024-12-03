@@ -1,17 +1,10 @@
-# map_events.gd
+# game/events/map_events.gd
 class_name MapEvents
 extends Reference
 
 class SetBiomesHandler extends Reference:
 	func process(state: GameState) -> Dictionary:
-		var new_hexes = {}
-		for pos in state.map_data.hexes:
-			var hex_data = state.map_data.hexes[pos].duplicate(true)
-			var biome_type = BiomeTypes.get_random_type()
-			hex_data.biome = biome_type
-			hex_data.biome_data = BiomeTypes.get_data(biome_type)
-			new_hexes[pos] = hex_data
-		
+		var new_hexes = MapSystem.generate_biome_distribution(state.map_data.hexes)
 		state.map_data.hexes = new_hexes
 		return {
 			"type": "set_biomes",
@@ -27,18 +20,19 @@ class TransformBiomeHandler extends Reference:
 		new_biome = biome
 	
 	func process(state: GameState) -> Dictionary:
-		if not state.map_data.hexes.has(position):
+		# Use system to validate transform
+		if not MapSystem.can_transform_biome(state.map_data.hexes, position):
 			return {}  # Return empty if position invalid
 			
-		var hex_data = state.map_data.hexes[position].duplicate(true)
-		hex_data.biome = new_biome
-		hex_data.biome_data = BiomeTypes.get_data(new_biome)
-		state.map_data.hexes[position] = hex_data
+		# Use system to create new hex data
+		var hex_data = state.map_data.hexes[position]
+		var new_hex = MapSystem.create_hex_with_biome(hex_data, new_biome)
+		state.map_data.hexes[position] = new_hex
 		
 		return {
 			"type": "transform_biome",
 			"position": position,
-			"old_biome": state.map_data.hexes[position].biome,
+			"old_biome": hex_data.biome,
 			"new_biome": new_biome
 		}
 

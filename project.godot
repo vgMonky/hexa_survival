@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hex_survival/game/events/map_events.gd"
 }, {
+"base": "Reference",
+"class": "MapSystem",
+"language": "GDScript",
+"path": "res://hex_survival/game/systems/map_system.gd"
+}, {
 "base": "Node2D",
 "class": "MapView",
 "language": "GDScript",
@@ -83,6 +88,7 @@ _global_script_class_icons={
 "HexView": "",
 "Map": "",
 "MapEvents": "",
+"MapSystem": "",
 "MapView": "",
 "MapViewContainer": "",
 "StateChange": "",
