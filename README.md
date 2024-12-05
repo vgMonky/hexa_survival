@@ -37,9 +37,10 @@ The game follows an Entity-Component-System (ECS) inspired pattern:
 ```
 hex_survival/
 ├── game/
+│   ├── data/           # Data structure, Entity and Components
 │   ├── state/          # State management
-│   ├── systems/        # Game systems
-│   └── events/         # State change events
+│   ├── systems/        # Game systems Pure logic
+│   └── events/         # Events
 └── view/
     ├── map/           # Map visualization
     └── ui/            # User interface
