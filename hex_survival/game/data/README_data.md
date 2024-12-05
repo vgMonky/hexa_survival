@@ -1,6 +1,6 @@
 # Game Data Architecture
 
-This directory contains all data structures used in the game. The architecture follows an Entity Component System (ECS) pattern with three main categories of data structures:
+This directory contains all data structures used in the game (each file might have in addition queries and helper functions). There are three main categories of data structures:
 
 ## Static Data
 Files that define constant, immutable game configurations and properties:
@@ -48,13 +48,6 @@ While data structures here define "what things are", the actual game logic resid
 - Movement System operates on Position Components
 - Combat System operates on Health Components
 - Crafting System operates on Inventory Components
-
-This separation ensures:
-1. Clean distinction between data and logic
-2. Reusable components across different entity types
-3. Easy addition of new capabilities through component composition
-4. Simplified state management and serialization
-5. Better testability and maintenance
 
 Example Flow:
 ```
