@@ -5,9 +5,6 @@ core_files=(
     "./hex_survival/game/state/state_manager.gd"
     "./hex_survival/game/state/game_state.gd"
     "./hex_survival/game/events/map_events.gd"
-    "./hex_survival/game/data/map.gd"
-    "./hex_survival/game/data/hex_tile.gd"
-    "./hex_survival/main.gd"
 )
 
 # Define README files
@@ -15,8 +12,8 @@ readme_files=(
     "./README.md"
     "./hex_survival/game/events/README_event.md"
     "./hex_survival/game/state/README_state.md"
+    "./hex_survival/game/data/README_data.md"
     "./hex_survival/game/systems/README_systems.md"
-    "./hex_survival/view/README_view.md"
 )
 
 output=$(
