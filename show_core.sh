@@ -10,31 +10,46 @@ core_files=(
     "./hex_survival/main.gd"
 )
 
-# Generate and display the output while simultaneously saving to a variable
+# Define README files
+readme_files=(
+    "./README.md"
+    "./hex_survival/game/events/README_event.md"
+    "./hex_survival/game/state/README_state.md"
+    "./hex_survival/game/systems/README_systems.md"
+    "./hex_survival/view/README_view.md"
+)
+
 output=$(
     echo "# Hex-Based Game Project Overview"
     echo "I'm working on a hex-based game with minimal state management and clean separation of concerns."
+    
     echo -e "\n## Project Structure"
     tree
+    
+    echo -e "\n## Documentation Files"
+    for file in "${readme_files[@]}"; do
+        if [ -f "$file" ]; then
+            echo -e "\n=== $file ==="
+            cat "$file"
+        fi
+    done
+    
     echo -e "\n## Core Architecture Files"
     for file in "${core_files[@]}"; do
         if [ -f "$file" ]; then
             echo -e "\n=== $file ==="
             cat "$file"
-        else
-            echo "File not found - $file"
         fi
     done
+    
     echo -e "\n## Key Design Principles"
     echo "- Minimal state management through events"
     echo "- Clean separation of concerns"
     echo "- Data-driven design"
 )
 
-# Print the output
 echo "$output"
 
-# Copy to clipboard and check if successful
 echo "$output" | xclip -selection clipboard
 if [ $? -eq 0 ]; then
     echo -e "\n✓ Successfully copied to clipboard!"
