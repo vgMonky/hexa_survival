@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "BiomeTypes",
 "language": "GDScript",
-"path": "res://hex_survival/game/data/biome_types.gd"
+"path": "res://hex_survival/game/data/map/biome_types.gd"
 }, {
 "base": "BaseUIPanel",
 "class": "GameInfoPanel",
@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "HexTile",
 "language": "GDScript",
-"path": "res://hex_survival/game/data/hex_tile.gd"
+"path": "res://hex_survival/game/data/map/hex_tile.gd"
 }, {
 "base": "Node2D",
 "class": "HexView",
@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Map",
 "language": "GDScript",
-"path": "res://hex_survival/game/data/map.gd"
+"path": "res://hex_survival/game/data/map/map.gd"
 }, {
 "base": "Reference",
 "class": "MapEvents",

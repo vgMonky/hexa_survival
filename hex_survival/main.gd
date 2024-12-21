@@ -8,7 +8,7 @@ func _ready() -> void:
 	
 	state_manager = StateManager.new()
 	add_child(state_manager)
-	state_manager.initialize(6, 8)
+	state_manager.initialize(20, 20)
 	
 	map_view_container = MapViewContainer.new(state_manager)
 	add_child(map_view_container)
@@ -24,7 +24,7 @@ func _ready() -> void:
 	print_hex_at(Vector2(3, 2))
 	print_hex_at(Vector2(6, 4))
 	
-	state_manager.apply_state_change(MapEvents.transform_biome(Vector2(0, 0), "WOODS"))
+	state_manager.apply_state_change(MapEvents.transform_biome(Vector2(0, 0), "WATER"))
 
 	print_hex_at(Vector2(0, 0))
 		
