@@ -14,6 +14,7 @@ readme_files=(
     "./hex_survival/game/state/README_state.md"
     "./hex_survival/game/data/README_data.md"
     "./hex_survival/game/systems/README_systems.md"
+    "./hex_survival/game/queries/README_queries.md"
 )
 
 output=$(

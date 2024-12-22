@@ -5,7 +5,9 @@ A turn-based strategy game built in Godot 3.5.2 where players control teams of c
 
 ## Architecture
 
-The game follows an Entity-Component-System (ECS) inspired pattern:
+The game state consist of a dictionary which is the single source of truth, and everything else works either by reading or applaying a change to the `game_state` through the `state_manager`.
+The visualisation is isolated from the game model it self, recating to the game state every time it changes. 
+The game follows an Entity-Component-System (ECS) inspired pattern.
 
 ### State Layer
 
@@ -26,25 +28,8 @@ The game follows an Entity-Component-System (ECS) inspired pattern:
 
 - Purely reactive to state
 - Handles user input
-- UI elements include:
-  - Turn order display
-  - Team information
-  - Resource counters
-  - Map visualization
+- UI elements
 
-## Project Structure
-
-```
-hex_survival/
-├── game/
-│   ├── data/           # Data structure, Entity and Components
-│   ├── state/          # State management
-│   ├── systems/        # Game systems Pure logic
-│   └── events/         # Events
-└── view/
-    ├── map/           # Map visualization
-    └── ui/            # User interface
-```
 
 ## Running the Game
 
