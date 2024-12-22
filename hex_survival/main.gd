@@ -2,22 +2,34 @@ extends Node
 
 var state_manager: StateManager
 var map_view_container: MapViewContainer
+var control_panel: GameControlPanel
+var info_panel: GameInfoPanel
 
 func _ready() -> void:
 	print("\n=== Game Starting ===")
 	
+	# Initialize state manager with a small default map
 	state_manager = StateManager.new()
 	add_child(state_manager)
-	state_manager.initialize(20, 20)
+	state_manager.initialize(5, 5)  # Start with a 5x5 map by default
 	
+	# Create control panel
+	control_panel = GameControlPanel.new(state_manager)
+	add_child(control_panel)
+	control_panel.rect_position = Vector2(50, 50)
+	
+	# Create map view container
 	map_view_container = MapViewContainer.new(state_manager)
 	add_child(map_view_container)
 	
 	# Create info panel
-	var info_panel = GameInfoPanel.new(state_manager)
+	info_panel = GameInfoPanel.new(state_manager)
 	add_child(info_panel)
-	info_panel.rect_position = Vector2(50, 50)  # Set initial position
-
+	info_panel.rect_position = Vector2(300, 50)
+	
+	print("Initial setup complete")
+	
+	
 	# Print sample of hex information
 	print("\nSample of hex tiles:")
 	print_hex_at(Vector2(0, 0))
