@@ -39,8 +39,8 @@ static func is_position_occupied_by_character(state: GameState, position: Vector
 		var character_position = Vector2(character_position_dict.get("x", 0), character_position_dict.get("y", 0))
 		
 		# Print the current character position and the passed position for debugging
-		print("Character Position: ", character_position)
-		print("Given Position: ", position)
+		#print("Character Position: ", character_position)
+		#print("Given Position: ", position)
 		
 		# Compare the actual position (Vector2) with the given position
 		if character_position == position:

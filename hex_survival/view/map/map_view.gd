@@ -40,12 +40,8 @@ func update_map() -> void:
 		# Convert position data (x, y) into Vector2
 		var position = Vector2(position_data.get("x", 0), position_data.get("y", 0))
 		
-		# Debugging prints
-		print("Position Data: ", position_data)  # Check the contents of position_data
-		print("Position as Vector2: ", position)  # Check the final Vector2 value
-		
 		var character_id = character.id
-		var character_color = Color(randf(), randf(), randf())  # Random color for now
+		var character_color = Color(3, 0, 0) # Random color for now
 		
 		# Create character view
 		var character_view = CharacterView.new(character_id, position, character_color)

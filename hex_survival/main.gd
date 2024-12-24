@@ -43,18 +43,10 @@ func _ready() -> void:
 	
 	
 	state_manager.apply_state_change(CharacterEvents.create_character(Vector2(4, 4)))
-	state_manager.apply_state_change(CharacterEvents.create_character(Vector2(2, 4)))
-	# Print the state of the characters after creation
-	print("\nState after character creation:")
 	print("Characters in state:", state_manager.current_state.characters)
-	# Query the character using CharacterQuery
-	var character_id = "char_1"  # Replace this with the actual ID of the character created
-	var queried_character = Query.get_char().get_character(state_manager.current_state, character_id)
-	print("Queried character by ID '%s': %s" % [character_id, queried_character])
-	
 	# Query all characters
-	var all_characters = Query.get_char().get_all_characters(state_manager.current_state)
-	print("All characters:", all_characters)
+	#var all_characters = Query.get_char().get_all_characters(state_manager.current_state)
+	#print("All characters:", all_characters)
 
 
 func print_hex_at(pos: Vector2) -> void:
