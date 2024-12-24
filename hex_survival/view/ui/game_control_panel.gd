@@ -54,15 +54,11 @@ func _init(sm: StateManager) -> void:
 	create_button.connect("pressed", self, "_on_create_pressed")
 	button_container.add_child(create_button)
 	
-	update_button = Button.new()
-	update_button.text = "Randomize Biomes"
-	update_button.connect("pressed", self, "_on_update_pressed")
-	button_container.add_child(update_button)
+
 
 func _on_create_pressed() -> void:
 	var width = int(width_spinbox.value)
 	var height = int(height_spinbox.value)
 	state_manager.initialize(width, height)
 
-func _on_update_pressed() -> void:
-	state_manager.apply_state_change(MapEvents.set_biomes())
+

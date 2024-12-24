@@ -8,3 +8,5 @@ extends Reference
 static func get_map():
 	return MapQuery
 
+static func get_char():
+	return CharacterQuery

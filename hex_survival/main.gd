@@ -4,6 +4,7 @@ var state_manager: StateManager
 var map_view_container: MapViewContainer
 var control_panel: GameControlPanel
 var info_panel: GameInfoPanel
+var char_panel: CharacterControlPanel
 
 func _ready() -> void:
 	print("\n=== Game Starting ===")
@@ -12,6 +13,10 @@ func _ready() -> void:
 	state_manager = StateManager.new()
 	add_child(state_manager)
 	state_manager.initialize(5, 5)  # Start with a 5x5 map by default
+	
+	# Create char control panel
+	char_panel = CharacterControlPanel.new(state_manager)
+	add_child(char_panel)
 	
 	# Create control panel
 	control_panel = GameControlPanel.new(state_manager)
@@ -30,16 +35,28 @@ func _ready() -> void:
 	print("Initial setup complete")
 	
 	
-	# Print sample of hex information
+	# Print sample of hex information and transformation
 	print("\nSample of hex tiles:")
 	print_hex_at(Vector2(0, 0))
-	print_hex_at(Vector2(3, 2))
-	print_hex_at(Vector2(6, 4))
-	
 	state_manager.apply_state_change(MapEvents.transform_biome(Vector2(0, 0), "WATER"))
-
 	print_hex_at(Vector2(0, 0))
-		
+	
+	
+	state_manager.apply_state_change(CharacterEvents.create_character(Vector2(4, 4)))
+	state_manager.apply_state_change(CharacterEvents.create_character(Vector2(2, 4)))
+	# Print the state of the characters after creation
+	print("\nState after character creation:")
+	print("Characters in state:", state_manager.current_state.characters)
+	# Query the character using CharacterQuery
+	var character_id = "char_1"  # Replace this with the actual ID of the character created
+	var queried_character = Query.get_char().get_character(state_manager.current_state, character_id)
+	print("Queried character by ID '%s': %s" % [character_id, queried_character])
+	
+	# Query all characters
+	var all_characters = Query.get_char().get_all_characters(state_manager.current_state)
+	print("All characters:", all_characters)
+
+
 func print_hex_at(pos: Vector2) -> void:
 	var hex = Query.get_map().get_hex_at(state_manager.current_state, pos)
 	if hex:

@@ -29,11 +29,36 @@ static func get_positions_by_biome(state: GameState, biome_type: String) -> Arra
 			positions.append(pos)
 	return positions
 
-# Returns true if the hex at position is walkable
+
+static func is_position_occupied_by_character(state: GameState, position: Vector2) -> bool:
+	for character in state.characters.values():
+		# Retrieve the position from the character's components as a dictionary
+		var character_position_dict = character.components.get("position", {}).get("position", {})
+
+		# Convert character position from dictionary to Vector2
+		var character_position = Vector2(character_position_dict.get("x", 0), character_position_dict.get("y", 0))
+		
+		# Print the current character position and the passed position for debugging
+		print("Character Position: ", character_position)
+		print("Given Position: ", position)
+		
+		# Compare the actual position (Vector2) with the given position
+		if character_position == position:
+			return true
+	return false
+
+
+
+# Returns true if the hex at position is walkable (not occupied by a character)
 static func is_hex_walkable(state: GameState, position: Vector2) -> bool:
+	# Check if there is any character at this position
+	if is_position_occupied_by_character(state, position):
+		return false  # Position is not walkable if occupied by a character
+
+	# Check if the biome is walkable
 	var hex = get_hex_at(state, position)
 	return hex.get("biome_data", {}).get("walkable", false)
-
+	
 # Returns the resources available at a position
 static func get_hex_resources(state: GameState, position: Vector2) -> Dictionary:
 	var hex = get_hex_at(state, position)

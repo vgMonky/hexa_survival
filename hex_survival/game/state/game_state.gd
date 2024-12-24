@@ -11,6 +11,7 @@ extends Reference
 
 # Raw game data
 var map_data: Dictionary
+var characters: Dictionary = {}  # Add this line
 
 func _init(width: int = 0, height: int = 0) -> void:
 	if width > 0 and height > 0:
@@ -18,8 +19,8 @@ func _init(width: int = 0, height: int = 0) -> void:
 		map.initialize()
 		map_data = map.to_dict()
 
-# Creates a deep copy of the state for safe modification
 func duplicate() -> Reference:
 	var new_state = get_script().new()
 	new_state.map_data = map_data.duplicate(true)
+	new_state.characters = characters.duplicate(true)  # Add this line
 	return new_state
