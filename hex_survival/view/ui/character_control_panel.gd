@@ -82,9 +82,8 @@ func _on_create_character_pressed() -> void:
 	var position = Vector2(character_position_x_spinbox.value, character_position_y_spinbox.value)
 	var character_color = character_color_picker.color
 	
-	# Call state manager or events to create a new character
-	var character_id = "char_" + str(OS.get_ticks_msec())  # Using current time as ID for uniqueness
-	state_manager.add_character(character_id, position, character_color)  # This function needs to be implemented in your state_manager
+	# Use the state_manager to create a new character using the CharacterEvents
+	state_manager.apply_state_change(CharacterEvents.create_character(position))
 
 	# Update the character list after creating a new character
 	_update_character_list()
@@ -99,4 +98,3 @@ func _update_character_list() -> void:
 		var label = Label.new()
 		label.text = "ID: %s | Position: %s" % [character.id, character.components.get("position").get("position")]
 		character_list_container.add_child(label)
-
