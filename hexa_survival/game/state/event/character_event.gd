@@ -10,7 +10,7 @@ func _init(sn):
 func apply_to_game_state(game_state: GameState) -> GameState:
 	
 	
-	print("MapEvent: Adding a map to the game state")
+	print("CharacterEvent: Adding character ", surename , " to the game state")
 	
 	# Create a new Map node
 	var character = Character.new(surename)

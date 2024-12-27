@@ -11,7 +11,6 @@ func _init(h: int, w: int):
 
 func apply_to_game_state(game_state: GameState) -> GameState:
 	
-	
 	print("MapEvent: Adding a map to the game state")
 	
 	# Create a new Map node
