@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Component",
+"class": "BiomeComponent",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/components/biome_component.gd"
+}, {
+"base": "Node",
+"class": "BiomeTypes",
+"language": "GDScript",
+"path": "res://hexa_survival/game/map/biome_types.gd"
+}, {
 "base": "Node",
 "class": "Character",
 "language": "GDScript",
@@ -70,6 +80,8 @@ _global_script_classes=[ {
 "path": "res://hexa_survival/game/ecs/system.gd"
 } ]
 _global_script_class_icons={
+"BiomeComponent": "",
+"BiomeTypes": "",
 "Character": "",
 "CharacterEvent": "",
 "Component": "",
