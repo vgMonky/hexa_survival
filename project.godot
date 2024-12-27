@@ -14,15 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/event/base_event.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "GameState",
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/game_state.gd"
 }, {
-"base": "Reference",
-"class": "Query",
+"base": "Node",
+"class": "Map",
 "language": "GDScript",
-"path": "res://hexa_survival/game/state/query/base_query.gd"
+"path": "res://hexa_survival/game/map/map.gd"
+}, {
+"base": "Event",
+"class": "MapEvent",
+"language": "GDScript",
+"path": "res://hexa_survival/game/state/event/map_event.gd"
 }, {
 "base": "Node",
 "class": "StateManager",
@@ -32,7 +37,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Event": "",
 "GameState": "",
-"Query": "",
+"Map": "",
+"MapEvent": "",
 "StateManager": ""
 }
 
