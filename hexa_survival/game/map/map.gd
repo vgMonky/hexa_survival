@@ -14,8 +14,8 @@ func _init(h: int, w: int):
 			# Randomly pick a biome from the predefined biomes
 			var biome_data = get_random_biome()
 
-			# Create new HexTile with the corresponding biome
-			var tile = HexTile.new(position, biome_data["biome_name"], biome_data["color"], biome_data["resources"])
+			# Create new HexTile with the corresponding biome and walkability
+			var tile = HexTile.new(position, biome_data["biome_name"], biome_data["color"], biome_data["resources"], biome_data["walkable"])
 
 			hex_tiles[position] = tile  # Store the tile in the dictionary with its position as the key
 	
