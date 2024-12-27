@@ -18,7 +18,7 @@ func _ready():
 	
 	
 	# Print the updated game state
-	state_manager._current_game_state.print_state()
+	state_manager.get_current_game_state().print_state()
 		
 	# Print all characters in the game state
 	print_all_characters(state_manager)
@@ -38,7 +38,7 @@ func print_all_characters(state : StateManager):
 	print("Printing all characters in the game state:")
 
 	# Get all children of the game state (which should include characters)
-	for child in state._current_game_state.get_children():
+	for child in state.get_current_game_state().get_children():
 		# Check if the child is a Character node
 		if child is Character:
 			print("Character: ", child.surename)  # Access the suren property of Character

@@ -30,3 +30,11 @@ func change_game_state(event: Event):
 	# Emit the signal that the game state has changed
 	print("Game state successfully updated based on event:", event)
 	emit_signal("game_state_changed", _current_game_state)
+
+
+# Getter method to access the game state
+func get_current_game_state() -> GameState:
+	if _current_game_state == null:
+		print("Warning: GameState is null!")
+		# You could also return a default GameState or handle this case differently
+	return _current_game_state
