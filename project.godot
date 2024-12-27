@@ -12,12 +12,22 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Character",
 "language": "GDScript",
-"path": "res://hexa_survival/game/map/character.gd"
+"path": "res://hexa_survival/game/ecs/entities/character.gd"
 }, {
 "base": "Event",
 "class": "CharacterEvent",
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/event/character_event.gd"
+}, {
+"base": "Reference",
+"class": "Component",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/component.gd"
+}, {
+"base": "Node",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/entity.gd"
 }, {
 "base": "Reference",
 "class": "Event",
@@ -29,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/game_state.gd"
 }, {
+"base": "Entity",
+"class": "HexTile",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/entities/hex_tile.gd"
+}, {
 "base": "Node",
 "class": "Map",
 "language": "GDScript",
@@ -39,19 +54,34 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/event/map_event.gd"
 }, {
+"base": "Component",
+"class": "PositionComponent",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/components/position_component.gd"
+}, {
 "base": "Node",
 "class": "StateManager",
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/state_manager.gd"
+}, {
+"base": "Node",
+"class": "System",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/system.gd"
 } ]
 _global_script_class_icons={
 "Character": "",
 "CharacterEvent": "",
+"Component": "",
+"Entity": "",
 "Event": "",
 "GameState": "",
+"HexTile": "",
 "Map": "",
 "MapEvent": "",
-"StateManager": ""
+"PositionComponent": "",
+"StateManager": "",
+"System": ""
 }
 
 [application]

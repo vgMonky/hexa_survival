@@ -2,24 +2,20 @@
 
 # Define core files
 core_files=(
-    "./hex_survival/game/state/state_manager.gd"
-    "./hex_survival/game/state/game_state.gd"
-    "./hex_survival/game/events/map_events.gd"
+    "./hexa_survival/game/state/state_manager.gd"
+    "./hexa_survival/game/state/game_state.gd"
+    "./hexa_survival/game/state/event/base_event.gd"
+    "./hexa_survival/game/state/event/map_event.gd"
 )
 
 # Define README files
 readme_files=(
     "./README.md"
-    "./hex_survival/game/events/README_event.md"
-    "./hex_survival/game/state/README_state.md"
-    "./hex_survival/game/data/README_data.md"
-    "./hex_survival/game/systems/README_systems.md"
-    "./hex_survival/game/queries/README_queries.md"
 )
 
 output=$(
-    echo "# Hex-Based Game Project Overview"
-    echo "I'm working on a hex-based game with minimal state management and clean separation of concerns."
+    echo "# Tile-Grid-Based Game Project Overview"
+    echo "I'm working on a tile-grid-based game with minimal state management and clean separation of concerns in godot 3.5 in my nixos system."
     
     echo -e "\n## Project Structure"
     tree
@@ -43,7 +39,6 @@ output=$(
     echo -e "\n## Key Design Principles"
     echo "- Minimal state management through events"
     echo "- Clean separation of concerns"
-    echo "- Data-driven design"
 )
 
 echo "$output"

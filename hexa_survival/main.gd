@@ -3,11 +3,11 @@ extends Node2D
 func _ready():
 	# Create an instance of StateManager
 	var state_manager = StateManager.new()
-	
 	# Connect the signal `game_state_changed` to `_on_game_state_changed`
 	state_manager.connect("game_state_changed", self, "_on_game_state_changed")
 	
-	var map_event = MapEvent.new(10, 15)
+	# Event testing
+	var map_event = MapEvent.new(3, 3)
 	state_manager.change_game_state(map_event)
 
 	var char_event = CharacterEvent.new("Tom")
