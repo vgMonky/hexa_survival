@@ -2,6 +2,9 @@ extends Node
 
 class_name StateManager
 
+# Declare the signal
+signal game_state_changed(new_state)
+
 var _current_game_state = null
 
 func _init():
@@ -27,6 +30,9 @@ func change_game_state(event: Event):
 	# Update the current game state and print success message
 	_current_game_state = new_game_state
 	print("Game state successfully updated based on event:", event)
+	
+	# Emit the signal with the updated game state
+	emit_signal("game_state_changed", _current_game_state)
 
 # Function to print the current game state
 func print_state():

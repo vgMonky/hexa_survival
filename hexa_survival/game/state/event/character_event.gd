@@ -1,13 +1,11 @@
 extends Event
 
-class_name MapEvent
+class_name CharacterEvent
 
-var map_h: int
-var map_w: int
+var surename: String
 
-func _init(h: int, w: int):
-	map_h = h
-	map_w = w
+func _init(sn):
+	surename = sn
 
 func apply_to_game_state(game_state: GameState) -> GameState:
 	
@@ -15,8 +13,8 @@ func apply_to_game_state(game_state: GameState) -> GameState:
 	print("MapEvent: Adding a map to the game state")
 	
 	# Create a new Map node
-	var map = Map.new(map_h, map_w)
+	var character = Character.new(surename)
 	# Add it to the GameState
-	game_state.add_child(map)
+	game_state.add_child(character)
 	
 	return game_state

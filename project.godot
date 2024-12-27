@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Character",
+"language": "GDScript",
+"path": "res://hexa_survival/game/map/character.gd"
+}, {
+"base": "Event",
+"class": "CharacterEvent",
+"language": "GDScript",
+"path": "res://hexa_survival/game/state/event/character_event.gd"
+}, {
 "base": "Reference",
 "class": "Event",
 "language": "GDScript",
@@ -35,6 +45,8 @@ _global_script_classes=[ {
 "path": "res://hexa_survival/game/state/state_manager.gd"
 } ]
 _global_script_class_icons={
+"Character": "",
+"CharacterEvent": "",
 "Event": "",
 "GameState": "",
 "Map": "",
