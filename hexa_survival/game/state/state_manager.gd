@@ -1,5 +1,4 @@
 extends Node
-
 class_name StateManager
 
 signal game_state_changed(new_state)

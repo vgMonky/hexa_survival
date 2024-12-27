@@ -2,9 +2,9 @@
 extends Node
 class_name Character
 
-var suren
+var surename
 
-func _init(sname: String = ""):
-	suren = sname
+func _init(sn: String = ""):
+	surename = sn
 	name = "Character"  # Set the name to identify the node
-	print("Character ", suren, " created")
+	print("Character ", surename, " created")
