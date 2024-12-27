@@ -10,9 +10,19 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
+"class": "Event",
+"language": "GDScript",
+"path": "res://hexa_survival/game/state/event/base_event.gd"
+}, {
+"base": "Reference",
 "class": "GameState",
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/game_state.gd"
+}, {
+"base": "Reference",
+"class": "Query",
+"language": "GDScript",
+"path": "res://hexa_survival/game/state/query/base_query.gd"
 }, {
 "base": "Node",
 "class": "StateManager",
@@ -20,14 +30,16 @@ _global_script_classes=[ {
 "path": "res://hexa_survival/game/state/state_manager.gd"
 } ]
 _global_script_class_icons={
+"Event": "",
 "GameState": "",
+"Query": "",
 "StateManager": ""
 }
 
 [application]
 
 config/name="hexa_survival"
-run/main_scene="res://hex_survival/main.tscn"
+run/main_scene="res://hexa_survival/main.tscn"
 
 [global]
 
