@@ -29,7 +29,7 @@ const MOUNTAIN = {
 		"stone": 0.7,  # 70% chance to have stone
 		"iron": 0.3   # 30% chance to have iron
 	},
-	"walkable": false  # Mountains are not walkable
+	"walkable": true
 }
 
 const WATER = {

@@ -7,7 +7,7 @@ func _ready():
 	state_manager.connect("game_state_changed", self, "_on_game_state_changed")
 	
 	# Event testing
-	var map_event = MapEvent.new(3, 3)
+	var map_event = MapEvent.new(2, 2)
 	state_manager.change_game_state(map_event)
 
 	var char_event = CharacterEvent.new("Tom")
@@ -19,7 +19,7 @@ func _ready():
 	
 	# Print the updated game state
 	state_manager.get_current_game_state().print_state()
-		
+	
 	# Print all characters in the game state
 	print_all_characters(state_manager)
 	
