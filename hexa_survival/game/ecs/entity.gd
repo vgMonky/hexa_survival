@@ -9,6 +9,9 @@ func _ready():
 	if _class_name == "Entity":
 		push_error("ERROR: Entity does not have valid _class_name, add it to its definition!")
 		
+func get_class_name():
+	return _class_name
+		
 # Method to add a component to this entity
 func add_component(component: Component):
 	var component_class = component.get_class_name()
