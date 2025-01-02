@@ -12,14 +12,11 @@ func _ready():
 	var map_event = MapEvent.new(2, 2)
 	state_manager.change_game_state(map_event)
 
-	var char_event = CharacterEvent.new("Tom")
+	var char_event = CharacterEvent.new("Tom", Vector2(10, 20))
 	state_manager.change_game_state(char_event)
 	
-	var char_event2 = CharacterEvent.new("Harry")
+	var char_event2 = CharacterEvent.new("Harry", Vector2(15, 25))
 	state_manager.change_game_state(char_event2)
-	
-	# Print all characters in the game state
-	print_all_characters(state_manager)
 	
 	
 func _process(delta):
@@ -34,22 +31,4 @@ func _process(delta):
 	
 func _on_game_state_changed(_new_state):
 	print("Signal received: Game state has changed!")
-
-
-func print_all_characters(state : StateManager):
-	# Assuming _current_game_state is accessible here
-	if state._current_game_state == null:
-		print("No game state available!")
-		return
-	
-	print("Printing all characters in the game state:")
-
-	# Get all children of the game state (which should include characters)
-	for child in state.get_current_game_state().get_children():
-		# Check if the child is a Character node
-		if child is Character:
-			print("Character: ", child.surename)  # Access the suren property of Character
-
-
-
 

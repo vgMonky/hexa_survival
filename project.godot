@@ -74,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/state_manager.gd"
 }, {
+"base": "Component",
+"class": "SurenameComponent",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/components/surename_component.gd"
+}, {
 "base": "Node",
 "class": "System",
 "language": "GDScript",
@@ -93,6 +98,7 @@ _global_script_class_icons={
 "MapEvent": "",
 "PositionComponent": "",
 "StateManager": "",
+"SurenameComponent": "",
 "System": ""
 }
 
