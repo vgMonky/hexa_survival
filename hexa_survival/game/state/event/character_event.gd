@@ -11,7 +11,10 @@ func _init(sname: String, pos: Vector2):
 func apply_to_game_state(game_state: GameState) -> GameState:
 	print("CharacterEvent: Adding character ", surname, " to the game state")
 	
-	# Create a new Character node and pass surname and position
+	# Create a new Entity reference (Character node is no longer necessary)
 	var character = Character.new(surname, position)
-	game_state.add_child(character)
+	
+	# Add the entity to the game state
+	game_state.add_entity(character)
+	
 	return game_state

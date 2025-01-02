@@ -2,7 +2,7 @@ extends Entity
 class_name Character
 
 func _init(surname: String, position: Vector2):
-	_class_name = "Character"
+	self._class_name = "Character"
 	
 	# Create and add the SurenameComponent to the character
 	var surename_component = SurenameComponent.new(surname)

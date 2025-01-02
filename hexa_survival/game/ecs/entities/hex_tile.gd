@@ -1,11 +1,9 @@
-# In game/ecs/entities/hex_tile.gd
-
 extends Entity
 class_name HexTile
 
 
 func _init(position: Vector2, biome_name: String, color: Color, resources: Dictionary, is_walkable: bool):
-	var _class_name : String = "HexTile"
+	self._class_name = "HexTile"
 	
 	# Create and attach the PositionComponent to this HexTile entity
 	var position_component = PositionComponent.new(position)

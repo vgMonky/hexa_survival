@@ -19,7 +19,7 @@ func _ready():
 	state_manager.change_game_state(char_event2)
 	
 	
-func _process(delta):
+func _process(_delta):
 	if state_manager:
 		# Detect the "p" key press (you can change this to any key you like)
 		if Input.is_action_just_pressed("ui_accept"):  # You can map "p" in the Input Map for better control

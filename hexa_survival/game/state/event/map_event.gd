@@ -1,4 +1,3 @@
-# MapEvent.gd
 extends Event
 class_name MapEvent
 
@@ -12,7 +11,10 @@ func _init(h: int, w: int):
 func apply_to_game_state(game_state: GameState) -> GameState:
 	print("MapEvent: Adding a map to the game state")
 
-	# Create a new Map node
-	var map = Map.new(map_h, map_w)  # This should be recognized as Map
-	game_state.add_child(map)
+	# Create a new Map reference
+	var map = Map.new(map_h, map_w)
+	
+	# Set the map in the GameState
+	game_state.set_map(map)
+	
 	return game_state
