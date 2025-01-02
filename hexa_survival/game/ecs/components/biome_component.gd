@@ -10,7 +10,10 @@ var walkable: bool = true  # Default to true, but can be overridden by specific 
 
 # Initialize the BiomeComponent with name, color, resources, and walkability
 func _init(b_name: String, col: Color, res: Dictionary, is_walkable: bool = true):
+	self._class_name = "BiomeComponent"
+	
 	self.biome_name = b_name
 	self.color = col
 	self.raw_resource = res
 	self.walkable = is_walkable
+

@@ -18,7 +18,7 @@ func _ready():
 	
 	
 	# Print the updated game state
-	state_manager.get_current_game_state().print_state()
+	#state_manager.get_current_game_state().print_state()
 	
 	# Print all characters in the game state
 	print_all_characters(state_manager)

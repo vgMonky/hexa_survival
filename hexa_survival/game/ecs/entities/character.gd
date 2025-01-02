@@ -1,5 +1,5 @@
 # Character.gd
-extends Node
+extends Entity
 class_name Character
 
 var surename
