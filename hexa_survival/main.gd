@@ -1,8 +1,10 @@
 extends Node2D
 
+var state_manager : StateManager
+
 func _ready():
 	# Create an instance of StateManager
-	var state_manager = StateManager.new()
+	state_manager = StateManager.new()
 	# Connect the signal `game_state_changed` to `_on_game_state_changed`
 	state_manager.connect("game_state_changed", self, "_on_game_state_changed")
 	
@@ -16,12 +18,17 @@ func _ready():
 	var char_event2 = CharacterEvent.new("Harry")
 	state_manager.change_game_state(char_event2)
 	
-	
-	# Print the updated game state
-	#state_manager.get_current_game_state().print_state()
-	
 	# Print all characters in the game state
 	print_all_characters(state_manager)
+	
+	
+func _process(delta):
+	if state_manager:
+		# Detect the "p" key press (you can change this to any key you like)
+		if Input.is_action_just_pressed("ui_accept"):  # You can map "p" in the Input Map for better control
+			# Trigger the state print when the "p" key is pressed
+			state_manager.get_current_game_state().print_state()
+
 	
 	
 	

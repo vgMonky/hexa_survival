@@ -24,5 +24,5 @@ func add_component(component: Component):
 	# Add the component to the dictionary
 	components[component_class] = component
 	# Print the current state of the components list
-	print("components list:", components)
+	#print("components list:", components)
 

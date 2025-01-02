@@ -8,7 +8,7 @@ func print_state():
 	print("GameState Total nodes count = ", self.get_children().size())
 	for node in self.get_children():
 		print("\nProperties for node:", node.name)
-		print_object_properties(node, 1)
+		print_object_properties(node, 0)
 
 func print_object_properties(obj, indent_level: int):
 	var properties = obj.get_property_list()
