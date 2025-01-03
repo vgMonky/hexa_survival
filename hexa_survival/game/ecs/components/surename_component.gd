@@ -1,8 +1,8 @@
 extends Component
-class_name SurenameComponent
+class_name GivenNameComponent
 
-var surname: String
+var given_name: String
 
-func _init(s: String):
-	self._class_name = "SurenameComponent"
-	surname = s
+func _init(n: String):
+	self._class_name = "GivenNameComponent"
+	given_name = n
