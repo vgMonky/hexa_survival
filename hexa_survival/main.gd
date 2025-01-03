@@ -25,10 +25,8 @@ func _process(_delta):
 		if Input.is_action_just_pressed("ui_accept"):  # You can map "p" in the Input Map for better control
 			# Trigger the state print when the "p" key is pressed
 			state_manager.get_current_game_state().print_state()
-
-	
 	
 	
 func _on_game_state_changed(_new_state):
-	print("Signal received: Game state has changed!")
+	print("Signal received: Game state has changed!\n")
 

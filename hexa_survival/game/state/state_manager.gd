@@ -7,7 +7,7 @@ var _current_game_state: GameState = null
 
 func _init():
 	_current_game_state = GameState.new()
-	print("StateManager ready: Initial game state created")
+	print("____ StateManager ready: Initial game state created ____\n")
 
 # Method to change the game state
 func change_game_state(event: Event):
@@ -28,7 +28,7 @@ func change_game_state(event: Event):
 		return
 	
 	# Emit the signal that the game state has changed
-	print("Game state successfully updated based on event:", event)
+	#print("Game state successfully updated based on event:", event)
 	emit_signal("game_state_changed", _current_game_state)
 
 

@@ -18,8 +18,9 @@ func add_component(component: Component):
 	if components.has(component_class):
 		print("Warning: Component of class", component_class, "already exists in entity. Overwriting it!")
 	else:
-		print("Component added:", component_class)
-
+		#print("Component added:", component_class)
+		pass
+		
 	components[component_class] = component
 	# Print the current state of the components list
 	#print("components list:", components)
