@@ -11,13 +11,17 @@ func _ready():
 	# Event testing
 	var map_event = MapEvent.new(2, 2)
 	state_manager.change_game_state(map_event)
+	state_manager.change_game_state(map_event)
+	
+	
 
-	var char_event = CharacterEvent.new("Tom", Vector2(10, 20))
+	var char_event = CharacterEvent.new("Tom", Vector2(0, 0))
 	state_manager.change_game_state(char_event)
 	
-	var char_event2 = CharacterEvent.new("Harry", Vector2(15, 25))
+	var char_event2 = CharacterEvent.new("Harry", Vector2(1, 1))
 	state_manager.change_game_state(char_event2)
 	
+
 	
 func _process(_delta):
 	if state_manager:
