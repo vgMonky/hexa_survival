@@ -1,9 +1,9 @@
 extends Entity
-class_name HexTile
+class_name HexTileEntity
 
 
 func _init(position: Vector2, biome_name: String, color: Color, resources: Dictionary, is_walkable: bool):
-	self._class_name = "HexTile"
+	self._class_name = "HexTileEntity"
 	
 	# Create and attach the PositionComponent to this HexTile entity
 	var position_component = PositionComponent.new(position)

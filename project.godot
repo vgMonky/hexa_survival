@@ -20,7 +20,7 @@ _global_script_classes=[ {
 "path": "res://hexa_survival/game/map/biome_types.gd"
 }, {
 "base": "Entity",
-"class": "Character",
+"class": "CharacterEntity",
 "language": "GDScript",
 "path": "res://hexa_survival/game/ecs/entities/character.gd"
 }, {
@@ -50,7 +50,7 @@ _global_script_classes=[ {
 "path": "res://hexa_survival/game/state/game_state.gd"
 }, {
 "base": "Entity",
-"class": "HexTile",
+"class": "HexTileEntity",
 "language": "GDScript",
 "path": "res://hexa_survival/game/ecs/entities/hex_tile.gd"
 }, {
@@ -87,13 +87,13 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "BiomeComponent": "",
 "BiomeTypes": "",
-"Character": "",
+"CharacterEntity": "",
 "CharacterEvent": "",
 "Component": "",
 "Entity": "",
 "Event": "",
 "GameState": "",
-"HexTile": "",
+"HexTileEntity": "",
 "Map": "",
 "MapEvent": "",
 "PositionComponent": "",

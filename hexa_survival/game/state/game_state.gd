@@ -20,6 +20,7 @@ func print_state():
 	if game_entities.size() > 0:
 		print("\nGame Entities:")
 		for entity in game_entities:
+			print("\n")
 			print_object_properties(entity, 1)
 	else:
 		print("No entities in the game state.")
@@ -53,6 +54,6 @@ func print_object_properties(obj, indent_level: int):
 							for comp_type in components_dict:
 								var component = components_dict[comp_type]
 								print(indent + "    Component:", comp_type)
-								print_object_properties(component, indent_level + 2)
+								print_object_properties(component, indent_level + 3)
 						else:
 							print_object_properties(value[key], indent_level + 2)
