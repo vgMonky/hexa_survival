@@ -74,12 +74,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hexa_survival/game/ecs/components/position_component.gd"
 }, {
+"base": "System",
+"class": "PositionSystem",
+"language": "GDScript",
+"path": "res://hexa_survival/game/ecs/systems/position_system.gd"
+}, {
 "base": "Node",
 "class": "StateManager",
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/state_manager.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "System",
 "language": "GDScript",
 "path": "res://hexa_survival/game/ecs/system.gd"
@@ -98,6 +103,7 @@ _global_script_class_icons={
 "Map": "",
 "MapEvent": "",
 "PositionComponent": "",
+"PositionSystem": "",
 "StateManager": "",
 "System": ""
 }

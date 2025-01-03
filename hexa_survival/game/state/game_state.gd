@@ -14,7 +14,7 @@ func print_state():
 	# Print game map details if it exists
 	if game_map:
 		print("\nGame Map:")
-	#	print_object_properties(game_map, 1)
+		#print_object_properties(game_map, 1)
 	
 	# Print all entities in the game state
 	if game_entities.size() > 0:

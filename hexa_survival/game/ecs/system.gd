@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 class_name System
 
 # Each system processes entities with specific components

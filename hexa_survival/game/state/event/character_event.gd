@@ -1,3 +1,5 @@
+# In character_event.gd
+
 extends Event
 class_name CharacterEvent
 
@@ -9,13 +11,17 @@ func _init(sname: String, pos: Vector2):
 	position = pos
 
 func apply_to_game_state(game_state: GameState) -> GameState:
-	print("CharacterEvent: Adding character ", surname, " to the game state")
+	print("CharacterEvent: Attempting to add character ", surname, " at position ", position)
 	
-	# Create a new Entity reference (Character node is no longer necessary)
+	# Use PositionSystem to validate the position
+	var position_system = PositionSystem.new()
+	if not position_system.is_valid_position(game_state, position):
+		print("CharacterEvent: Cannot add character at position ", position, " - invalid position.")
+		return game_state  # Return the unchanged game state
+	
+	# If valid, create and add the character entity
 	var character = CharacterEntity.new(surname, position)
-	
-	# Add the entity to the game state
 	game_state.add_entity(character)
 	
+	print("CharacterEvent: Character ", surname, " added successfully at position ", position)
 	return game_state
- 
