@@ -13,14 +13,16 @@ func print_state():
 	
 	# Print game map details if it exists
 	if game_map:
-		print("\nGame Map:")
+		print("\nGame Map: \n")
+		for h in game_map.hex_tiles:
+			print("  " , h)
 		#print_object_properties(game_map, 1)
 	
 	# Print all entities in the game state
 	if game_entities.size() > 0:
 		print("\nGame Entities:")
 		for entity in game_entities:
-			print("\n")
+			print("")
 			print_object_properties(entity, 1)
 	else:
 		print("No entities in the game state.")
