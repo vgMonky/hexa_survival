@@ -31,13 +31,13 @@ static func is_valid_position(game_state: GameState, position: Vector2) -> bool:
 		return false
 	
 	# Check if the hex tile is walkable
-	var biome_component: BiomeComponent = _get_component(hex_tile, "BiomeComponent")
+	var biome_component: BiomeComponent = hex_tile.get_component("BiomeComponent")
 	if biome_component and not biome_component.walkable:
 		return false
 
 	# Check if the position is already occupied by an entity
 	for entity in game_state.game_entities:
-		var position_component: PositionComponent = _get_component(entity, "PositionComponent")
+		var position_component: PositionComponent = entity.get_component("PositionComponent")
 		if position_component and position_component.position == position:
 			return false
 
@@ -47,10 +47,4 @@ static func is_valid_position(game_state: GameState, position: Vector2) -> bool:
 static func _get_hex_tile_at_position(game_state: GameState, position: Vector2) -> Entity:
 	if game_state.game_map and game_state.game_map.hex_tiles.has(position):
 		return game_state.game_map.hex_tiles[position]
-	return null
-
-# Helper: Get a specific component from an entity
-static func _get_component(entity: Entity, component_name: String) -> Component:
-	if entity.components.has(component_name):
-		return entity.components[component_name]
 	return null
