@@ -26,13 +26,20 @@ func _process(_delta):
 	if state_manager:
 		# Handle direction change
 		if Input.is_action_just_pressed("ui_left"):
+			input_printing("ui_left")
 			_change_direction(focused_entity, -1)  # Rotate counter-clockwise
 		elif Input.is_action_just_pressed("ui_right"):
+			input_printing("ui_right")
 			_change_direction(focused_entity, 1)  # Rotate clockwise
 		
 		# Print the game state when "ui_accept" is pressed
 		if Input.is_action_just_pressed("ui_accept"):
+			input_printing("ui_accept")
 			state_manager.get_current_game_state().print_state()
+
+func input_printing(action: String):
+	print("\n ---> user input: ", action)
+
 
 func _change_direction(entity: Entity, delta: int):
 	if entity.components.has("DirectionComponent"):
