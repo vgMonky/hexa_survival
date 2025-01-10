@@ -1,5 +1,3 @@
-# File: hexa_survival/game/state/event/change_direction_event.gd
-
 extends Event
 class_name ChangeDirectionEvent
 
@@ -13,14 +11,11 @@ func _init(target_entity: Entity, delta: int):
 func apply_to_game_state(game_state: GameState) -> GameState:
 	print("ChangeDirectionEvent: Attempting to change direction of entity ", entity)
 
-	# Ensure the entity has a DirectionComponent
-	if not entity.components.has("DirectionComponent"):
-		print("ChangeDirectionEvent: Entity does not have a DirectionComponent.")
-		return game_state
-
-	# Change the direction
-	var direction_component: DirectionComponent = entity.components["DirectionComponent"]
-	direction_component.change_direction(direction_delta)
-
-	print("ChangeDirectionEvent: Direction changed successfully for entity ", entity)
+	# Use MovementSystem to handle the direction change
+	var movement_system = MovementSystem.new()
+	if movement_system:
+		movement_system.change_direction(entity, direction_delta)
+	else:
+		print("ChangeDirectionEvent: MovementSystem not found in the game state.")
+	
 	return game_state
