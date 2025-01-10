@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://hexa_survival/game/ecs/components/surename_component.gd"
 }, {
+"base": "Node",
+"class": "HexDirections",
+"language": "GDScript",
+"path": "res://hexa_survival/game/map/hex_direction.gd.gd"
+}, {
 "base": "Entity",
 "class": "HexTileEntity",
 "language": "GDScript",
@@ -78,6 +83,11 @@ _global_script_classes=[ {
 "class": "MapEvent",
 "language": "GDScript",
 "path": "res://hexa_survival/game/state/event/map_event.gd"
+}, {
+"base": "Event",
+"class": "MoveForwardEvent",
+"language": "GDScript",
+"path": "res://hexa_survival/game/state/event/move_forward_event.gd"
 }, {
 "base": "System",
 "class": "MovementSystem",
@@ -116,9 +126,11 @@ _global_script_class_icons={
 "Event": "",
 "GameState": "",
 "GivenNameComponent": "",
+"HexDirections": "",
 "HexTileEntity": "",
 "Map": "",
 "MapEvent": "",
+"MoveForwardEvent": "",
 "MovementSystem": "",
 "PositionComponent": "",
 "PositionSystem": "",

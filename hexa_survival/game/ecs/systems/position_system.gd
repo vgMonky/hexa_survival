@@ -1,23 +1,13 @@
 extends System
 class_name PositionSystem
 
-# Directions for a hexagonal grid (pointy top orientation)
-const DIRECTION_OFFSETS = [
-	Vector2(1, 0),   # East
-	Vector2(0, -1),  # Northeast
-	Vector2(-1, -1), # Northwest
-	Vector2(-1, 0),  # West
-	Vector2(0, 1),   # Southwest
-	Vector2(1, 1)    # Southeast
-]
-
 # Calculate adjacent position based on direction
 static func get_adjacent_position(position: Vector2, direction: int) -> Vector2:
 	# Wrap direction between 0 and 5
 	direction = direction % 6
 	if direction < 0:
 		direction += 6
-	return position + DIRECTION_OFFSETS[direction]
+	return position + HexDirections.ALL_DIRECTIONS[direction]
 
 # Check if a hex tile exists (ignores occupation and walkability)
 static func hex_tile_exists(game_state: GameState, position: Vector2) -> bool:

@@ -32,6 +32,11 @@ func _process(_delta):
 			input_printing("ui_right")
 			_change_direction(focused_entity, 1)  # Rotate clockwise
 		
+		# Handle moving forward
+		if Input.is_action_just_pressed("ui_up"):
+			input_printing("ui_up")
+			_move_forward(focused_entity, 1)  # Move forward by 1 tile
+		
 		# Print the game state when "ui_accept" is pressed
 		if Input.is_action_just_pressed("ui_accept"):
 			input_printing("ui_accept")
@@ -39,7 +44,6 @@ func _process(_delta):
 
 func input_printing(action: String):
 	print("\n ---> user input: ", action)
-
 
 func _change_direction(entity: Entity, delta: int):
 	if entity.components.has("DirectionComponent"):
@@ -68,6 +72,42 @@ func _change_direction(entity: Entity, delta: int):
 			print("Adjacent hex tile: ", adjacent_position, " (non-existing hex_tile)")
 	else:
 		print("Entity does not have a DirectionComponent!")
+
+func _move_forward(entity: Entity, amount: int):
+	if entity.components.has("PositionComponent") and entity.components.has("DirectionComponent"):
+		# Get the position and direction components
+		var position_component: PositionComponent = entity.components["PositionComponent"]
+		var direction_component: DirectionComponent = entity.components["DirectionComponent"]
+		
+		# Calculate the adjacent position based on current direction
+		var offset = HexDirections.ALL_DIRECTIONS[direction_component.current_direction]
+		var intended_position = position_component.position + offset * amount
+		
+		# Check if the intended position is valid
+		var tile_exists = PositionSystem.hex_tile_exists(state_manager.get_current_game_state(), intended_position)
+		
+		# Print entity info before moving
+		var name_component: GivenNameComponent = entity.components["GivenNameComponent"]
+		print(name_component.given_name, " is attempting to move forward to ", intended_position)
+		
+		if tile_exists:
+			print("Intended hex tile exists at: ", intended_position)
+			
+			# Check if the tile is walkable or occupied
+			if PositionSystem.is_valid_position(state_manager.get_current_game_state(), intended_position):
+				print("Tile is valid for movement. Moving...")
+				# Apply the MoveForwardEvent
+				var event = MoveForwardEvent.new(entity, amount)
+				state_manager.change_game_state(event)
+				
+				# Print new position after movement
+				print(name_component.given_name, "'s new position is ", position_component.position)
+			else:
+				print("Tile exists but is either occupied or not walkable.")
+		else:
+			print("Intended hex tile does not exist at: ", intended_position)
+	else:
+		print("Entity does not have PositionComponent or DirectionComponent!")
 
 func _on_game_state_changed(_new_state):
 	print("Signal received: Game state has changed!\n")
